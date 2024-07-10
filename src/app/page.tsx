@@ -17,12 +17,47 @@ export default function Home() {
       setTodos(JSON.parse(storedTodos))
     }
     setIsLoaded(true)
+
+    // 通知の許可を要求
+    if ('Notification' in window) {
+      Notification.requestPermission();
+    }
+
+    // サービスワーカーの登録
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/todo/sw.js')
+        .then((registration) => {
+          console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch((error) => {
+          console.error('Service Worker registration failed:', error);
+        });
+    }
   }, [])
 
   useEffect(() => {
     if (isLoaded) {
       localStorage.setItem('todos', JSON.stringify(todos))
     }
+
+    // タスクの期限をチェック
+    const checkDeadlines = () => {
+      const now = new Date();
+      todos.forEach((todo) => {
+        if (todo.dueDate && new Date(todo.dueDate) <= now && !todo.notified) {
+          sendNotification(todo);
+          setTodos((prevTodos) =>
+            prevTodos.map((t) =>
+              t.id === todo.id ? { ...t, notified: true } : t
+            )
+          );
+        }
+      });
+    };
+
+    const intervalId = setInterval(checkDeadlines, 60000); // 1分ごとにチェック
+
+    return () => clearInterval(intervalId);
   }, [todos, isLoaded])
 
   const addTodo = (title: string, dueDate?: Date) => {
@@ -31,6 +66,7 @@ export default function Home() {
       title,
       completed: false,
       dueDate,
+      notified: false,
     }
     setTodos([newTodo, ...todos])
   }
@@ -46,6 +82,18 @@ export default function Home() {
   const deleteTodo = (id: number) => {
     setTodos(todos.filter((todo) => todo.id !== id))
   }
+
+  const sendNotification = (todo: Todo) => {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification('TODOの期限通知', {
+          body: `「${todo.title}」の期限が来ました。`,
+          icon: '/todo/icon-192x192.png',
+          badge: '/todo/icon-192x192.png'
+        });
+      });
+    }
+  };
 
   return (
     <main className="container mx-auto bg-gradient-to-b from-cyan-200 via-pink-200 to-yellow-200 min-h-screen flex flex-col">

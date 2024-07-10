@@ -3,6 +3,7 @@ export type Todo = {
   title: string;
   completed: boolean;
   dueDate?: Date;
+  notified: boolean;
 };
 
 interface SpeechRecognitionEvent extends Event {
