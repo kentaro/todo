@@ -99,7 +99,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-cyan-200 via-pink-200 to-yellow-200">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-cyan-200 via-pink-200 to-yellow-200 text-lg">
       <header className="bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 p-4">
         <div className="container mx-auto flex justify-center">
           <Y2KLogo />

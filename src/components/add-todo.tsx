@@ -12,15 +12,18 @@ type AddTodoProps = {
 export function AddTodo({ onAdd }: AddTodoProps) {
   const [title, setTitle] = useState('')
   const [dueDate, setDueDate] = useState('')
+  const [dueTime, setDueTime] = useState('')
   const [isListening, setIsListening] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (title.trim()) {
-      const dueDateObj = dueDate ? new Date(dueDate) : undefined
+      const dueDateTimeString = dueDate && dueTime ? `${dueDate}T${dueTime}` : undefined
+      const dueDateObj = dueDateTimeString ? new Date(dueDateTimeString) : undefined
       onAdd(title.trim(), dueDateObj)
       setTitle('')
       setDueDate('')
+      setDueTime('')
     }
   }
 
@@ -58,24 +61,21 @@ export function AddTodo({ onAdd }: AddTodoProps) {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="新しいタスクを入力"
-            className="w-full"
+            placeholder="新しいタスクを入力" className="w-full text-lg"
           />
-          <div className="relative w-full sm:w-auto">
+          <div className="flex w-full sm:w-auto gap-2">
             <Input
-              type="datetime-local"
+              type="date"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
-              className="w-full sm:w-auto appearance-none"
-              id="dueDateInput"
+              className="w-full sm:w-auto"
             />
-            <Button
-              type="button"
-              className="absolute right-1 top-1/2 -translate-y-1/2 p-1 hidden sm:block"
-              variant="ghost"
-              onClick={() => (document.getElementById('dueDateInput') as HTMLInputElement)?.showPicker()}
-            >
-            </Button>
+            <Input
+              type="time"
+              value={dueTime}
+              onChange={(e) => setDueTime(e.target.value)}
+              className="w-full sm:w-auto"
+            />
           </div>
         </div>
         <div className="flex w-full sm:w-auto gap-2 mt-2 sm:mt-0">

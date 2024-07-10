@@ -30,7 +30,7 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
       <div className="flex-grow">
         <label
           htmlFor={`todo-${todo.id}`}
-          className={`text-white text-lg ${todo.completed ? 'line-through opacity-50' : ''}`}
+          className={`text-white text-xl ${todo.completed ? 'line-through opacity-50' : ''}`}
         >
           {todo.title}
         </label>
