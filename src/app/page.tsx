@@ -5,6 +5,7 @@ import { TodoList } from '@/components/todo-list'
 import { AddTodo } from '@/components/add-todo'
 import { Todo } from '@/types'
 import { EmptyTodoSVG } from '@/components/empty-todo-svg'
+import Y2KLogo from '@/components/y2k-logo'  // この行を追加
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
@@ -46,8 +47,13 @@ export default function Home() {
   }
 
   return (
-    <main className="container mx-auto p-4 bg-gradient-to-b from-cyan-200 to-blue-300 min-h-screen flex flex-col">
-      <div className="flex-grow overflow-y-auto pb-16">
+    <main className="container mx-auto bg-gradient-to-b from-cyan-200 to-blue-300 min-h-screen flex flex-col">
+      <header className="fixed top-0 left-0 right-0 bg-blue-300 z-10">
+        <div className="container mx-auto p-4">
+          <Y2KLogo />
+        </div>
+      </header>
+      <div className="flex-grow overflow-y-auto pt-24 pb-24 px-4">
         {!isLoaded ? (
           <div className="text-center mt-4 text-purple-800">読み込み中...</div>
         ) : todos.length > 0 ? (
@@ -59,7 +65,9 @@ export default function Home() {
           </div>
         )}
       </div>
-      <AddTodo onAdd={addTodo} />
+      <div className="fixed bottom-0 left-0 right-0 bg-blue-300 z-10">
+        <AddTodo onAdd={addTodo} />
+      </div>
     </main>
   )
 }

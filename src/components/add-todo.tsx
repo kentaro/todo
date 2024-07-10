@@ -48,8 +48,8 @@ export function AddTodo({ onAdd }: AddTodoProps) {
   }, [])
 
   return (
-    <form onSubmit={handleSubmit} className="fixed bottom-0 left-0 right-0 bg-blue-300 p-4 shadow-lg">
-      <div className="container mx-auto flex gap-2">
+    <form onSubmit={handleSubmit} className="container mx-auto p-4">
+      <div className="flex gap-2">
         <Input
           type="text"
           value={title}
