@@ -44,7 +44,7 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
           onChange={(e) => setEditTitle(e.target.value)}
           className="y2k-input"
         />
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <Input
             type="date"
             value={editDueDate}
