@@ -30,7 +30,7 @@ export default function Home() {
       title,
       completed: false,
     }
-    setTodos([...todos, newTodo])
+    setTodos([newTodo, ...todos])
   }
 
   const toggleTodo = (id: number) => {
