@@ -5,7 +5,6 @@ import { TodoList } from '@/components/todo-list'
 import { AddTodo } from '@/components/add-todo'
 import { Todo } from '@/types'
 import { EmptyTodoSVG } from '@/components/empty-todo-svg'
-import Y2KLogo from '@/components/y2k-logo'
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
@@ -110,9 +109,11 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <header className="bg-primary p-4">
-        <div className="container mx-auto flex justify-center">
-          <Y2KLogo />
+      <header className="bg-primary p-6 shadow-md">
+        <div className="container mx-auto flex items-center justify-center">
+          <h1 className="text-6xl font-bold text-white bg-gradient-to-r from-pink-500 to-cyan-500 bg-clip-text text-transparent">
+            TODO
+          </h1>
         </div>
       </header>
       <main className="flex-grow overflow-y-auto p-4">
@@ -122,9 +123,10 @@ export default function Home() {
           ) : todos.length > 0 ? (
             <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} onUpdate={updateTodo} />
           ) : (
-            <div className="flex flex-col items-center justify-center h-full">
-              <EmptyTodoSVG />
-              <p className="mt-4 text-lg text-accent">タスクがありません。新しいタスクを追加してください。</p>
+            <div className="flex flex-col items-center justify-center h-full mt-20">
+              <div className="text-4xl font-bold text-accent mb-4">✨</div>
+              <p className="text-2xl font-bold text-accent mb-2">タスクがありません</p>
+              <p className="text-lg text-secondary">新しいタスクを追加して始めましょう！</p>
             </div>
           )}
         </div>
