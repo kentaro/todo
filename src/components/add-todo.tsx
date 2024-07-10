@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Mic } from "lucide-react"
+import { Mic, Plus } from "lucide-react"
 
 type AddTodoProps = {
   onAdd: (title: string, dueDate?: Date) => void
@@ -89,7 +89,7 @@ export function AddTodo({ onAdd }: AddTodoProps) {
         </div>
         <div className="flex gap-4">
           <Button type="submit" className="y2k-button flex-grow text-lg py-3">
-            追加
+            <Plus className="w-6 h-6" />
           </Button>
         </div>
       </div>

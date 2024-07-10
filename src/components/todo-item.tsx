@@ -3,6 +3,7 @@ import { Todo } from '@/types'
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Edit, Trash, Check, X } from "lucide-react"
 
 type TodoItemProps = {
   todo: Todo
@@ -59,33 +60,45 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
           />
         </div>
         <div className="flex gap-2">
-          <Button onClick={handleUpdate} className="y2k-button flex-grow">更新</Button>
-          <Button onClick={() => setIsEditing(false)} className="y2k-button flex-grow">キャンセル</Button>
+          <Button onClick={handleUpdate} className="y2k-button flex-grow">
+            <Check className="w-5 h-5" />
+          </Button>
+          <Button onClick={() => setIsEditing(false)} className="y2k-button flex-grow">
+            <X className="w-5 h-5" />
+          </Button>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="y2k-card flex items-center gap-4 p-4 todo-item">
-      <Checkbox
-        checked={todo.completed}
-        onCheckedChange={() => onToggle(todo.id)}
-        id={`todo-${todo.id}`}
-        className="border-2 border-primary w-6 h-6"
-      />
-      <div className="flex-grow overflow-hidden">
-        <p className="text-lg font-semibold mb-1 overflow-hidden text-ellipsis break-words">
-          {todo.title}
-        </p>
-        {todo.dueDate && (
-          <p className="text-sm text-gray-500">
-            期限: {new Date(todo.dueDate).toLocaleDateString()}
+    <div className="y2k-card flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 todo-item">
+      <div className="flex items-center gap-4 w-full">
+        <Checkbox
+          checked={todo.completed}
+          onCheckedChange={() => onToggle(todo.id)}
+          id={`todo-${todo.id}`}
+          className="border-2 border-primary w-6 h-6"
+        />
+        <div className="flex-grow overflow-hidden">
+          <p className="text-lg font-semibold mb-1 overflow-hidden text-ellipsis break-words">
+            {todo.title}
           </p>
-        )}
+          {todo.dueDate && (
+            <p className="text-sm text-gray-500">
+              期限: {formatDate(todo.dueDate)}
+            </p>
+          )}
+        </div>
       </div>
-      <Button onClick={() => setIsEditing(true)} className="y2k-button">編集</Button>
-      <Button onClick={() => onDelete(todo.id)} className="y2k-button bg-red-500 hover:bg-red-600">削除</Button>
+      <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto mt-2 sm:mt-0">
+        <Button onClick={() => setIsEditing(true)} className="y2k-button w-full sm:w-auto">
+          <Edit className="w-5 h-5" />
+        </Button>
+        <Button onClick={() => onDelete(todo.id)} className="y2k-button bg-red-500 hover:bg-red-600 w-full sm:w-auto">
+          <Trash className="w-5 h-5" />
+        </Button>
+      </div>
     </div>
   )
 }
