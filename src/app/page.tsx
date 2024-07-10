@@ -47,7 +47,7 @@ export default function Home() {
 
   return (
     <main className="container mx-auto p-4 bg-gradient-to-b from-cyan-200 to-blue-300 min-h-screen flex flex-col">
-      <div className="flex-grow">
+      <div className="flex-grow overflow-y-auto">
         {!isLoaded ? (
           <div className="text-center mt-4 text-purple-800">読み込み中...</div>
         ) : todos.length > 0 ? (
@@ -59,7 +59,7 @@ export default function Home() {
           </div>
         )}
       </div>
-      <div className="mt-4">
+      <div className="sticky bottom-0 bg-blue-300 pt-4">
         <AddTodo onAdd={addTodo} />
       </div>
     </main>

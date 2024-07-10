@@ -20,12 +20,13 @@ export function AddTodo({ onAdd }: AddTodoProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
+    <form onSubmit={handleSubmit} className="flex gap-2">
       <Input
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="新しいタスクを入力"
+        className="flex-grow"
       />
       <Button type="submit">追加</Button>
     </form>
