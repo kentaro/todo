@@ -2,7 +2,7 @@
   "name": "TODOアプリ",
   "short_name": "TODO",
   "description": "シンプルなTODOアプリ",
-  "start_url": "/todo",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
