@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { VT323 } from "next/font/google";
 import "./globals.css";
+import Y2KLogo from "@/components/y2k-logo";
 
-const inter = Inter({ subsets: ["latin"] });
+const vt323 = VT323({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TODOアプリ",
+  title: "TODO",
   description: "シンプルなTODOアプリ",
 };
 
@@ -32,7 +33,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={vt323.className}>
+        <header className="flex items-center justify-center p-4">
+          <Y2KLogo />
+        </header>
+        {children}
+      </body>
     </html>
   );
 }

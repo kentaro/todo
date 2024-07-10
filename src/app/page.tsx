@@ -45,14 +45,15 @@ export default function Home() {
   }
 
   return (
-    <main className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">TODOアプリ</h1>
-      <AddTodo onAdd={addTodo} />
-      {!isLoaded ? (
-        <div className="text-center mt-4">読み込み中...</div>
-      ) : (
-        <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} />
-      )}
+    <main className="container mx-auto p-4 bg-gradient-to-b from-cyan-200 to-blue-300 min-h-screen">
+      <div className="max-w-md mx-auto bg-white/50 p-6 rounded-xl shadow-lg backdrop-blur-sm">
+        <AddTodo onAdd={addTodo} />
+        {!isLoaded ? (
+          <div className="text-center mt-4 text-purple-800">読み込み中...</div>
+        ) : (
+          <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} />
+        )}
+      </div>
     </main>
   )
 }
