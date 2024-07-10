@@ -73,7 +73,7 @@ export function AddTodo({ onAdd }: AddTodoProps) {
               type="button"
               className="absolute right-1 top-1/2 -translate-y-1/2 p-1"
               variant="ghost"
-              onClick={() => document.getElementById('dueDateInput')?.showPicker()}
+              onClick={() => (document.getElementById('dueDateInput') as HTMLInputElement)?.showPicker()}
             >
             </Button>
           </div>
