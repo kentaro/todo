@@ -69,12 +69,14 @@ export function AddTodo({ onAdd }: AddTodoProps) {
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
               className="w-full sm:w-auto"
+              placeholder="日付"
             />
             <Input
               type="time"
               value={dueTime}
               onChange={(e) => setDueTime(e.target.value)}
               className="w-full sm:w-auto"
+              placeholder="時間"
             />
           </div>
         </div>
