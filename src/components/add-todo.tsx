@@ -56,13 +56,23 @@ export function AddTodo({ onAdd }: AddTodoProps) {
   return (
     <form onSubmit={handleSubmit} className="y2k-card p-6 bg-[var(--card-bg)] max-w-3xl mx-auto">
       <div className="flex flex-col gap-4">
-        <Input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="新しいタスクを入力"
-          className="y2k-input text-lg p-3"
-        />
+        <div className="relative">
+          <Input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="新しいタスクを入力"
+            className="y2k-input text-lg p-3 pr-12"
+          />
+          <Button
+            type="button"
+            onClick={startListening}
+            disabled={isListening}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-transparent"
+          >
+            <Mic className={`w-6 h-6 ${isListening ? 'text-accent animate-pulse' : 'text-primary'}`} />
+          </Button>
+        </div>
         <div className="flex gap-4">
           <Input
             type="date"
@@ -80,9 +90,6 @@ export function AddTodo({ onAdd }: AddTodoProps) {
         <div className="flex gap-4">
           <Button type="submit" className="y2k-button flex-grow text-lg py-3">
             追加
-          </Button>
-          <Button type="button" onClick={startListening} disabled={isListening} className="y2k-button flex-grow text-lg py-3">
-            <Mic className={`w-6 h-6 ${isListening ? 'text-accent animate-pulse' : 'text-primary'}`} />
           </Button>
         </div>
       </div>
