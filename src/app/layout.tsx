@@ -23,9 +23,6 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/todo/icon-192x192.png" />
       </head>
       <body className={vt323.className}>
-        <header className="flex items-center justify-center p-4">
-          <Y2KLogo />
-        </header>
         {children}
         <script
           dangerouslySetInnerHTML={{
