@@ -22,7 +22,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#000000" />
         <link rel="apple-touch-icon" href="/todo/icon-192x192.png" />
       </head>
-      <body className={`${vt323.className} text-lg`}>
+      <body className={`${vt323.className} text-xl leading-relaxed`}>
         {children}
         <script
           dangerouslySetInnerHTML={{

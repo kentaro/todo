@@ -109,26 +109,30 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-cyan-200 via-pink-200 to-yellow-200 text-lg">
-      <header className="bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 p-4">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
+      <header className="bg-primary p-4">
         <div className="container mx-auto flex justify-center">
           <Y2KLogo />
         </div>
       </header>
       <main className="flex-grow overflow-y-auto p-4">
-        {!isLoaded ? (
-          <div className="text-center mt-4 text-purple-800">読み込み中...</div>
-        ) : todos.length > 0 ? (
-          <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} onUpdate={updateTodo} />
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full">
-            <EmptyTodoSVG />
-            <p className="mt-4 text-lg text-purple-800">タスクがありません。新しいタスクを追加してください。</p>
-          </div>
-        )}
+        <div className="container mx-auto max-w-2xl">
+          {!isLoaded ? (
+            <div className="text-center mt-4 text-secondary">読み込み中...</div>
+          ) : todos.length > 0 ? (
+            <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} onUpdate={updateTodo} />
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full">
+              <EmptyTodoSVG />
+              <p className="mt-4 text-lg text-accent">タスクがありません。新しいタスクを追加してください。</p>
+            </div>
+          )}
+        </div>
       </main>
-      <footer className="bg-blue-300 p-4">
-        <AddTodo onAdd={addTodo} />
+      <footer className="bg-[var(--footer-bg)] p-4">
+        <div className="container mx-auto max-w-2xl">
+          <AddTodo onAdd={addTodo} />
+        </div>
       </footer>
     </div>
   )

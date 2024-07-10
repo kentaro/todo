@@ -38,59 +38,44 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
 
   if (isEditing) {
     return (
-      <div className="flex items-center gap-2 py-2 px-4 mb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 rounded-lg shadow-md">
+      <div className="y2k-card flex flex-col sm:flex-row items-center gap-2 p-4 mb-4">
         <Input
           value={editTitle}
           onChange={(e) => setEditTitle(e.target.value)}
-          className="flex-grow"
+          className="y2k-input flex-grow"
         />
         <Input
           type="date"
           value={editDueDate}
           onChange={(e) => setEditDueDate(e.target.value)}
+          className="y2k-input w-auto"
         />
         <Input
           type="time"
           value={editDueTime}
           onChange={(e) => setEditDueTime(e.target.value)}
+          className="y2k-input w-auto"
         />
-        <Button onClick={handleUpdate} className="bg-purple-500 hover:bg-purple-600 text-white">
-          更新
-        </Button>
-        <Button onClick={() => setIsEditing(false)} className="bg-pink-500 hover:bg-pink-600 text-white">
-          キャンセル
-        </Button>
+        <Button onClick={handleUpdate} className="y2k-button">更新</Button>
+        <Button onClick={() => setIsEditing(false)} className="y2k-button">キャンセル</Button>
       </div>
     )
   }
 
   return (
-    <div className="flex items-center gap-2 py-2 px-4 mb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 rounded-lg shadow-md">
+    <div className="y2k-card flex items-center gap-4 p-4 mb-4 todo-item">
       <Checkbox
         checked={todo.completed}
         onCheckedChange={() => onToggle(todo.id)}
         id={`todo-${todo.id}`}
-        className="border-2 border-white"
+        className="border-2 border-primary w-6 h-6"
       />
-      <div className="flex-grow">
-        <label
-          htmlFor={`todo-${todo.id}`}
-          className={`text-white text-xl ${todo.completed ? 'line-through opacity-50' : ''}`}
-        >
-          {todo.title}
-        </label>
-        {todo.dueDate && (
-          <p className="text-xs text-white opacity-75">
-            期限: {formatDate(todo.dueDate)}
-          </p>
-        )}
-      </div>
-      <Button onClick={() => setIsEditing(true)} className="bg-purple-500 hover:bg-purple-600 text-white">
-        編集
-      </Button>
-      <Button variant="destructive" size="sm" onClick={() => onDelete(todo.id)} className="bg-red-500 hover:bg-red-600 text-white">
-        削除
-      </Button>
+      <span className={`flex-grow text-lg ${todo.completed ? 'line-through text-gray-500' : ''}`}>{todo.title}</span>
+      {todo.dueDate && (
+        <span className="text-sm text-accent">{formatDate(todo.dueDate)}</span>
+      )}
+      <Button onClick={() => setIsEditing(true)} className="y2k-button">編集</Button>
+      <Button onClick={() => onDelete(todo.id)} className="y2k-button bg-red-500 hover:bg-red-600">削除</Button>
     </div>
   )
 }

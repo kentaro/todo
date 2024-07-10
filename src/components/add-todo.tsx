@@ -54,38 +54,35 @@ export function AddTodo({ onAdd }: AddTodoProps) {
   }, [])
 
   return (
-    <form onSubmit={handleSubmit} className="container mx-auto p-4">
-      <div className="flex flex-col sm:flex-row items-center gap-2">
-        <div className="w-full sm:flex-grow flex flex-col sm:flex-row items-center gap-2">
+    <form onSubmit={handleSubmit} className="y2k-card p-6 bg-[var(--card-bg)] max-w-3xl mx-auto">
+      <div className="flex flex-col gap-4">
+        <Input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="新しいタスクを入力"
+          className="y2k-input text-lg p-3"
+        />
+        <div className="flex gap-4">
           <Input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="新しいタスクを入力" className="w-full text-lg"
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            className="y2k-input flex-grow"
           />
-          <div className="flex w-full sm:w-auto gap-2">
-            <Input
-              type="date"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-              className="w-full sm:w-auto"
-              placeholder="日付"
-            />
-            <Input
-              type="time"
-              value={dueTime}
-              onChange={(e) => setDueTime(e.target.value)}
-              className="w-full sm:w-auto"
-              placeholder="時間"
-            />
-          </div>
+          <Input
+            type="time"
+            value={dueTime}
+            onChange={(e) => setDueTime(e.target.value)}
+            className="y2k-input flex-grow"
+          />
         </div>
-        <div className="flex w-full sm:w-auto gap-2 mt-2 sm:mt-0">
-          <Button type="submit" className="flex-grow sm:flex-grow-0 bg-green-500 hover:bg-green-600 text-white">
+        <div className="flex gap-4">
+          <Button type="submit" className="y2k-button flex-grow text-lg py-3">
             追加
           </Button>
-          <Button type="button" onClick={startListening} disabled={isListening} className="flex-grow sm:flex-grow-0 bg-blue-500 hover:bg-blue-600 text-white">
-            <Mic className={isListening ? 'animate-pulse' : ''} />
+          <Button type="button" onClick={startListening} disabled={isListening} className="y2k-button flex-grow text-lg py-3">
+            <Mic className={`w-6 h-6 ${isListening ? 'text-accent animate-pulse' : 'text-primary'}`} />
           </Button>
         </div>
       </div>
