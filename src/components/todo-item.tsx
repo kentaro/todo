@@ -72,7 +72,7 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
   }
 
   return (
-    <div className="y2k-card flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 todo-item">
+    <div className={`y2k-card flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 todo-item ${todo.completed ? 'bg-opacity-50' : ''}`}>
       <div className="flex items-center gap-4 w-full">
         <Checkbox
           checked={todo.completed}
@@ -81,7 +81,7 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
           className="border-2 border-primary w-6 h-6"
         />
         <div className="flex-grow overflow-hidden">
-          <p className="text-lg font-semibold mb-1 overflow-hidden text-ellipsis break-words">
+          <p className={`text-lg font-semibold mb-1 overflow-hidden text-ellipsis break-words ${todo.completed ? 'line-through text-gray-500' : ''}`}>
             {todo.title}
           </p>
           {todo.dueDate && (
