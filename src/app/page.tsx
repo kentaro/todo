@@ -25,11 +25,12 @@ export default function Home() {
     }
   }, [todos, isLoaded])
 
-  const addTodo = (title: string) => {
+  const addTodo = (title: string, dueDate?: Date) => {
     const newTodo: Todo = {
       id: Date.now(),
       title,
       completed: false,
+      dueDate,
     }
     setTodos([newTodo, ...todos])
   }

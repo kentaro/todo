@@ -6,18 +6,21 @@ import { Input } from "@/components/ui/input"
 import { Mic } from "lucide-react"
 
 type AddTodoProps = {
-  onAdd: (title: string) => void
+  onAdd: (title: string, dueDate?: Date) => void
 }
 
 export function AddTodo({ onAdd }: AddTodoProps) {
   const [title, setTitle] = useState('')
+  const [dueDate, setDueDate] = useState('')
   const [isListening, setIsListening] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (title.trim()) {
-      onAdd(title.trim())
+      const dueDateObj = dueDate ? new Date(dueDate) : undefined
+      onAdd(title.trim(), dueDateObj)
       setTitle('')
+      setDueDate('')
     }
   }
 
@@ -49,7 +52,7 @@ export function AddTodo({ onAdd }: AddTodoProps) {
 
   return (
     <form onSubmit={handleSubmit} className="container mx-auto p-4">
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2">
         <Input
           type="text"
           value={title}
@@ -57,10 +60,18 @@ export function AddTodo({ onAdd }: AddTodoProps) {
           placeholder="新しいタスクを入力"
           className="flex-grow"
         />
-        <Button type="button" onClick={startListening} disabled={isListening}>
-          <Mic className={isListening ? 'animate-pulse' : ''} />
-        </Button>
-        <Button type="submit">追加</Button>
+        <Input
+          type="datetime-local"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+          className="flex-grow"
+        />
+        <div className="flex gap-2">
+          <Button type="button" onClick={startListening} disabled={isListening}>
+            <Mic className={isListening ? 'animate-pulse' : ''} />
+          </Button>
+          <Button type="submit">追加</Button>
+        </div>
       </div>
     </form>
   )
