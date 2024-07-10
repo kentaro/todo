@@ -5,6 +5,7 @@ import { TodoList } from '@/components/todo-list'
 import { AddTodo } from '@/components/add-todo'
 import { Todo } from '@/types'
 import { EmptyTodoSVG } from '@/components/empty-todo-svg'
+import Y2KLogo from '@/components/y2k-logo'
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
@@ -111,9 +112,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <header className="bg-primary p-6 shadow-md">
         <div className="container mx-auto flex items-center justify-center">
-          <h1 className="text-6xl font-bold text-white bg-gradient-to-r from-pink-500 to-cyan-500 bg-clip-text text-transparent">
-            TODO
-          </h1>
+          <Y2KLogo className="text-6xl" />
         </div>
       </header>
       <main className="flex-grow overflow-y-auto p-4">

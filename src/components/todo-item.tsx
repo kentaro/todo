@@ -67,17 +67,23 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
   }
 
   return (
-    <div className="y2k-card flex items-center gap-4 p-4 mb-4 todo-item">
+    <div className="y2k-card flex items-center gap-4 p-4 todo-item">
       <Checkbox
         checked={todo.completed}
         onCheckedChange={() => onToggle(todo.id)}
         id={`todo-${todo.id}`}
         className="border-2 border-primary w-6 h-6"
       />
-      <span className={`flex-grow text-lg ${todo.completed ? 'line-through text-gray-500' : ''}`}>{todo.title}</span>
-      {todo.dueDate && (
-        <span className="text-sm text-accent">{formatDate(todo.dueDate)}</span>
-      )}
+      <div className="flex-grow overflow-hidden">
+        <p className="text-lg font-semibold mb-1 overflow-hidden text-ellipsis break-words">
+          {todo.title}
+        </p>
+        {todo.dueDate && (
+          <p className="text-sm text-gray-500">
+            期限: {new Date(todo.dueDate).toLocaleDateString()}
+          </p>
+        )}
+      </div>
       <Button onClick={() => setIsEditing(true)} className="y2k-button">編集</Button>
       <Button onClick={() => onDelete(todo.id)} className="y2k-button bg-red-500 hover:bg-red-600">削除</Button>
     </div>
