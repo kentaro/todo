@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { TodoList } from '@/components/todo-list'
 import { AddTodo } from '@/components/add-todo'
 import { Todo } from '@/types'
-import { EmptyTodoSVG } from '@/components/empty-todo-svg'
 import Y2KLogo from '@/components/y2k-logo'
 
 export default function Home() {
@@ -110,7 +109,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <header className="bg-primary p-6 shadow-md">
+      <header className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 p-6 shadow-md header-sparkle">
         <div className="container mx-auto flex items-center justify-center">
           <Y2KLogo className="text-6xl" />
         </div>
