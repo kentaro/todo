@@ -25,13 +25,16 @@ export default function Home() {
 
     // サービスワーカーの登録
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/todo/sw.js')
-        .then((registration) => {
-          console.log('Service Worker registered with scope:', registration.scope);
-        })
-        .catch((error) => {
-          console.error('Service Worker registration failed:', error);
-        });
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/todo/sw.js').then(
+          function(registration) {
+            console.log('Service Worker registration successful with scope: ', registration.scope);
+          },
+          function(err) {
+            console.log('Service Worker registration failed: ', err);
+          }
+        );
+      });
     }
   }, [])
 

@@ -15,18 +15,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const basePath = process.env.NODE_ENV === 'production' ? '/todo' : '';
-
   return (
     <html lang="ja">
       <head>
-        <link rel="manifest" href={`${basePath}/manifest.json`} />
+        <link rel="manifest" href="/todo/manifest.json" />
+        <meta name="theme-color" content="#000000" />
+        <link rel="apple-touch-icon" href="/todo/icon-192x192.png" />
+      </head>
+      <body className={vt323.className}>
+        <header className="flex items-center justify-center p-4">
+          <Y2KLogo />
+        </header>
+        {children}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
-                  navigator.serviceWorker.register('${basePath}/sw.js').then(
+                  navigator.serviceWorker.register('/todo/sw.js').then(
                     function(registration) {
                       console.log('Service Worker registration successful with scope: ', registration.scope);
                     },
@@ -39,12 +45,6 @@ export default function RootLayout({
             `,
           }}
         />
-      </head>
-      <body className={vt323.className}>
-        <header className="flex items-center justify-center p-4">
-          <Y2KLogo />
-        </header>
-        {children}
       </body>
     </html>
   );
