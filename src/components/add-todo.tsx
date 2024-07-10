@@ -90,6 +90,7 @@ export function AddTodo({ onAdd }: AddTodoProps) {
         <div className="flex gap-4">
           <Button type="submit" className="y2k-button flex-grow text-lg py-3">
             <Plus className="w-6 h-6" />
+            <span>追加</span>
           </Button>
         </div>
       </div>

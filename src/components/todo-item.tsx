@@ -72,31 +72,31 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
   }
 
   return (
-    <div className={`y2k-card flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 todo-item ${todo.completed ? 'bg-opacity-50' : ''}`}>
-      <div className="flex items-center gap-4 w-full">
-        <Checkbox
-          checked={todo.completed}
-          onCheckedChange={() => onToggle(todo.id)}
-          id={`todo-${todo.id}`}
-          className="border-2 border-primary w-6 h-6"
-        />
-        <div className="flex-grow overflow-hidden">
-          <p className={`text-lg font-semibold mb-1 overflow-hidden text-ellipsis break-words ${todo.completed ? 'line-through text-gray-500' : ''}`}>
-            {todo.title}
+    <div className={`y2k-card flex items-start gap-4 p-4 todo-item ${todo.completed ? 'bg-opacity-50' : ''}`}>
+      <Checkbox
+        checked={todo.completed}
+        onCheckedChange={() => onToggle(todo.id)}
+        id={`todo-${todo.id}`}
+        className="border-2 border-primary w-6 h-6 mt-1"
+      />
+      <div className="flex-grow overflow-hidden">
+        <p className={`text-lg font-semibold mb-1 overflow-hidden text-ellipsis break-words ${todo.completed ? 'line-through text-gray-500' : ''}`}>
+          {todo.title}
+        </p>
+        {todo.dueDate && (
+          <p className="text-sm text-gray-500">
+            期限: {formatDate(todo.dueDate)}
           </p>
-          {todo.dueDate && (
-            <p className="text-sm text-gray-500">
-              期限: {formatDate(todo.dueDate)}
-            </p>
-          )}
-        </div>
+        )}
       </div>
-      <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto mt-2 sm:mt-0">
-        <Button onClick={() => setIsEditing(true)} className="y2k-button w-full sm:w-auto">
-          <Edit className="w-5 h-5" />
+      <div className="flex flex-col gap-2">
+        <Button onClick={() => setIsEditing(true)} className="y2k-button w-24 h-10 p-0 flex items-center justify-center">
+          <Edit className="w-5 h-5 mr-1" />
+          <span>編集</span>
         </Button>
-        <Button onClick={() => onDelete(todo.id)} className="y2k-button bg-red-500 hover:bg-red-600 w-full sm:w-auto">
-          <Trash className="w-5 h-5" />
+        <Button onClick={() => onDelete(todo.id)} className="y2k-button bg-red-500 hover:bg-red-600 w-24 h-10 p-0 flex items-center justify-center">
+          <Trash className="w-5 h-5 mr-1" />
+          <span>削除</span>
         </Button>
       </div>
     </div>
