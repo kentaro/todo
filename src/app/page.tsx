@@ -86,6 +86,16 @@ export default function Home() {
     setTodos(todos.filter((todo) => todo.id !== id))
   }
 
+  const updateTodo = (id: number, newTitle: string, newDueDate?: Date) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id
+          ? { ...todo, title: newTitle, dueDate: newDueDate, notified: false }
+          : todo
+      )
+    )
+  }
+
   const sendNotification = (todo: Todo) => {
     if ('Notification' in window && Notification.permission === 'granted') {
       navigator.serviceWorker.ready.then((registration) => {
@@ -109,7 +119,7 @@ export default function Home() {
         {!isLoaded ? (
           <div className="text-center mt-4 text-purple-800">読み込み中...</div>
         ) : todos.length > 0 ? (
-          <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} />
+          <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} onUpdate={updateTodo} />
         ) : (
           <div className="flex flex-col items-center justify-center h-full">
             <EmptyTodoSVG />
