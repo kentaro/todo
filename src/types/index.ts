@@ -34,6 +34,7 @@ interface SpeechRecognition extends EventTarget {
   onresult: ((this: SpeechRecognition, ev: SpeechRecognitionEvent) => any) | null;
   onend: ((this: SpeechRecognition, ev: Event) => any) | null;
   start(): void;
+  stop(): void;
 }
 
 interface SpeechRecognitionErrorEvent extends Event {

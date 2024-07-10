@@ -37,20 +37,33 @@ export function AddTodo({ onAdd }: AddTodoProps) {
 
     recognition.start()
 
+    let timeoutId: NodeJS.Timeout
+
     recognition.onresult = (event) => {
       const speechResult = event.results[0][0].transcript
       setTitle(speechResult)
       setIsListening(false)
+      recognition.stop()
+      clearTimeout(timeoutId)
     }
 
     recognition.onerror = (event) => {
       console.error('音声認識エラー:', event.error)
       setIsListening(false)
+      recognition.stop()
+      clearTimeout(timeoutId)
     }
 
     recognition.onend = () => {
       setIsListening(false)
+      clearTimeout(timeoutId)
     }
+
+    // 10秒後にタイムアウトする
+    timeoutId = setTimeout(() => {
+      recognition.stop()
+      setIsListening(false)
+    }, 10000)
   }, [])
 
   return (
