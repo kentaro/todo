@@ -52,38 +52,40 @@ export function AddTodo({ onAdd }: AddTodoProps) {
 
   return (
     <form onSubmit={handleSubmit} className="container mx-auto p-4">
-      <div className="flex items-center gap-2">
-        <div className="flex-grow flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row items-center gap-2">
+        <div className="w-full sm:flex-grow flex flex-col sm:flex-row items-center gap-2">
           <Input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="新しいタスクを入力"
-            className="flex-grow"
+            className="w-full"
           />
-          <div className="relative">
+          <div className="relative w-full sm:w-auto">
             <Input
               type="datetime-local"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
-              className="w-auto appearance-none"
+              className="w-full sm:w-auto appearance-none"
               id="dueDateInput"
             />
             <Button
               type="button"
-              className="absolute right-1 top-1/2 -translate-y-1/2 p-1"
+              className="absolute right-1 top-1/2 -translate-y-1/2 p-1 hidden sm:block"
               variant="ghost"
               onClick={() => (document.getElementById('dueDateInput') as HTMLInputElement)?.showPicker()}
             >
             </Button>
           </div>
         </div>
-        <Button type="submit" className="bg-green-500 hover:bg-green-600 text-white">
-          追加
-        </Button>
-        <Button type="button" onClick={startListening} disabled={isListening} className="bg-blue-500 hover:bg-blue-600 text-white">
-          <Mic className={isListening ? 'animate-pulse' : ''} />
-        </Button>
+        <div className="flex w-full sm:w-auto gap-2 mt-2 sm:mt-0">
+          <Button type="submit" className="flex-grow sm:flex-grow-0 bg-green-500 hover:bg-green-600 text-white">
+            追加
+          </Button>
+          <Button type="button" onClick={startListening} disabled={isListening} className="flex-grow sm:flex-grow-0 bg-blue-500 hover:bg-blue-600 text-white">
+            <Mic className={isListening ? 'animate-pulse' : ''} />
+          </Button>
+        </div>
       </div>
     </form>
   )
