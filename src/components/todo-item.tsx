@@ -38,26 +38,30 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
 
   if (isEditing) {
     return (
-      <div className="y2k-card flex flex-col sm:flex-row items-center gap-2 p-4 mb-4">
+      <div className="y2k-card flex flex-col gap-2 p-4 mb-4">
         <Input
           value={editTitle}
           onChange={(e) => setEditTitle(e.target.value)}
-          className="y2k-input flex-grow"
+          className="y2k-input"
         />
-        <Input
-          type="date"
-          value={editDueDate}
-          onChange={(e) => setEditDueDate(e.target.value)}
-          className="y2k-input w-auto"
-        />
-        <Input
-          type="time"
-          value={editDueTime}
-          onChange={(e) => setEditDueTime(e.target.value)}
-          className="y2k-input w-auto"
-        />
-        <Button onClick={handleUpdate} className="y2k-button">更新</Button>
-        <Button onClick={() => setIsEditing(false)} className="y2k-button">キャンセル</Button>
+        <div className="flex gap-2">
+          <Input
+            type="date"
+            value={editDueDate}
+            onChange={(e) => setEditDueDate(e.target.value)}
+            className="y2k-input flex-grow"
+          />
+          <Input
+            type="time"
+            value={editDueTime}
+            onChange={(e) => setEditDueTime(e.target.value)}
+            className="y2k-input flex-grow"
+          />
+        </div>
+        <div className="flex gap-2">
+          <Button onClick={handleUpdate} className="y2k-button flex-grow">更新</Button>
+          <Button onClick={() => setIsEditing(false)} className="y2k-button flex-grow">キャンセル</Button>
+        </div>
       </div>
     )
   }
