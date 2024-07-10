@@ -52,26 +52,38 @@ export function AddTodo({ onAdd }: AddTodoProps) {
 
   return (
     <form onSubmit={handleSubmit} className="container mx-auto p-4">
-      <div className="flex flex-col gap-2">
-        <Input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="新しいタスクを入力"
-          className="flex-grow"
-        />
-        <Input
-          type="datetime-local"
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-          className="flex-grow"
-        />
-        <div className="flex gap-2">
-          <Button type="button" onClick={startListening} disabled={isListening}>
-            <Mic className={isListening ? 'animate-pulse' : ''} />
-          </Button>
-          <Button type="submit">追加</Button>
+      <div className="flex items-center gap-2">
+        <div className="flex-grow flex items-center gap-2">
+          <Input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="新しいタスクを入力"
+            className="flex-grow"
+          />
+          <div className="relative">
+            <Input
+              type="datetime-local"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              className="w-auto appearance-none"
+              id="dueDateInput"
+            />
+            <Button
+              type="button"
+              className="absolute right-1 top-1/2 -translate-y-1/2 p-1"
+              variant="ghost"
+              onClick={() => document.getElementById('dueDateInput')?.showPicker()}
+            >
+            </Button>
+          </div>
         </div>
+        <Button type="submit" className="bg-green-500 hover:bg-green-600 text-white">
+          追加
+        </Button>
+        <Button type="button" onClick={startListening} disabled={isListening} className="bg-blue-500 hover:bg-blue-600 text-white">
+          <Mic className={isListening ? 'animate-pulse' : ''} />
+        </Button>
       </div>
     </form>
   )
