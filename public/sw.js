@@ -1,4 +1,6 @@
-const CACHE_NAME = 'todo-app-v1';
+const VERSION = '__GIT_REF__';
+const CACHE_NAME = `todo-app-${VERSION}`;
+
 const urlsToCache = [
   '/todo/',
   '/todo/index.html',
@@ -26,7 +28,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
+          if (cacheName.startsWith('todo-app-') && cacheName !== CACHE_NAME) {
             return caches.delete(cacheName);
           }
         })
