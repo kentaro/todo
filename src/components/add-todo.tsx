@@ -28,10 +28,9 @@ export function AddTodo({ onAdd }: AddTodoProps) {
       setCameraError("QRコードのスキャンに失敗しました。");
     },
     constraints: {
-      facingMode: 'environment'
+      video: { facingMode: 'environment' }
     },
     timeBetweenDecodingAttempts: 300,
-    formats: ['qr_code'],
   });
 
   useEffect(() => {
