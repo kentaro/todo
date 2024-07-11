@@ -103,3 +103,13 @@ body {
   0% { background-position: 0% 0%, 0 0; }
   100% { background-position: 100% 0%, 100px 100px; }
 }
+
+/* スクロールバーを非表示にする */
+.overflow-y-auto {
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  display: none;  /* WebKit */
+}

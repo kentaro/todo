@@ -108,20 +108,22 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    <div className="flex flex-col h-screen bg-background text-foreground">
       <header className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 p-6 shadow-md header-sparkle">
         <div className="container mx-auto flex items-center justify-center">
           <Y2KLogo className="text-6xl" />
         </div>
       </header>
-      <main className="flex-grow overflow-y-auto my-4">
-        <div className="container mx-auto max-w-2xl">
+      <main className="flex-grow overflow-hidden py-8">
+        <div className="container mx-auto max-w-2xl h-full flex flex-col px-4">
           {!isLoaded ? (
             <div className="text-center mt-4 text-secondary">読み込み中...</div>
           ) : todos.length > 0 ? (
-            <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} onUpdate={updateTodo} />
+            <div className="overflow-y-auto flex-grow pr-2">
+              <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} onUpdate={updateTodo} />
+            </div>
           ) : (
-            <div className="flex flex-col items-center justify-center h-full mt-20">
+            <div className="flex flex-col items-center justify-center h-full">
               <div className="text-4xl font-bold text-accent mb-4">✨</div>
               <p className="text-2xl font-bold text-accent mb-2">タスクがありません</p>
               <p className="text-lg text-secondary">新しいタスクを追加して始めましょう！</p>
@@ -129,8 +131,8 @@ export default function Home() {
           )}
         </div>
       </main>
-      <footer className="bg-[var(--footer-bg)] py-4">
-        <div className="container mx-auto max-w-2xl">
+      <footer className="bg-[var(--footer-bg)] py-6">
+        <div className="container mx-auto max-w-2xl px-4">
           <AddTodo onAdd={addTodo} />
         </div>
       </footer>
