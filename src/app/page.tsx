@@ -6,6 +6,10 @@ import { AddTodo } from '@/components/add-todo'
 import { Todo } from '@/types'
 import Y2KLogo from '@/components/y2k-logo'
 
+function canUseNotifications() {
+  return 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
+}
+
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [isLoaded, setIsLoaded] = useState(false)
@@ -17,13 +21,15 @@ export default function Home() {
     }
     setIsLoaded(true)
 
-    // 通知の許可を要求
-    if ('Notification' in window) {
-      Notification.requestPermission();
-    }
+    if (canUseNotifications()) {
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          console.log('通知が許可されました');
+        } else {
+          console.log('通知が許可されませんでした');
+        }
+      });
 
-    // サービスワーカーの登録
-    if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js').then(
           function(registration) {
@@ -34,6 +40,8 @@ export default function Home() {
           }
         );
       });
+    } else {
+      console.log('このブラウザでは通知機能がサポートされていません');
     }
   }, [])
 
@@ -96,7 +104,7 @@ export default function Home() {
   }
 
   const sendNotification = (todo: Todo) => {
-    if ('Notification' in window && Notification.permission === 'granted') {
+    if (canUseNotifications() && Notification.permission === 'granted') {
       navigator.serviceWorker.ready.then((registration) => {
         registration.showNotification('TODOの期限通知', {
           body: `「${todo.title}」の期限が来ました。`,
@@ -104,6 +112,8 @@ export default function Home() {
           badge: '/icon-192x192.png'
         });
       });
+    } else {
+      console.log('通知を送信できません：', todo.title);
     }
   };
 
