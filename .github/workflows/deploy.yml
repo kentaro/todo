@@ -57,7 +57,7 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} run build
+        run: npm run build
       - name: Copy Service Worker
         run: cp public/sw.js out/sw.js
       - name: Upload artifact
@@ -75,3 +75,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
