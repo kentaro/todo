@@ -2,11 +2,11 @@ const VERSION = '__GIT_REF__';
 const CACHE_NAME = `todo-app-${VERSION}`;
 
 const urlsToCache = [
-  '/todo/',
-  '/todo/index.html',
-  '/todo/manifest.json',
-  '/todo/icon-192x192.png',
-  '/todo/icon-512x512.png'
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icon-192x192.png',
+  '/icon-512x512.png'
 ];
 
 self.addEventListener('install', (event) => {

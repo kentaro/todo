@@ -25,7 +25,7 @@ export default function Home() {
     // サービスワーカーの登録
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/todo/sw.js').then(
+        navigator.serviceWorker.register('/sw.js').then(
           function(registration) {
             console.log('Service Worker registration successful with scope: ', registration.scope);
           },
@@ -100,8 +100,8 @@ export default function Home() {
       navigator.serviceWorker.ready.then((registration) => {
         registration.showNotification('TODOの期限通知', {
           body: `「${todo.title}」の期限が来ました。`,
-          icon: '/todo/icon-192x192.png',
-          badge: '/todo/icon-192x192.png'
+          icon: '/icon-192x192.png',
+          badge: '/icon-192x192.png'
         });
       });
     }

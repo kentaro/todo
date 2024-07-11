@@ -18,9 +18,9 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <head>
-        <link rel="manifest" href="/todo/manifest.json" />
+        <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />
-        <link rel="apple-touch-icon" href="/todo/icon-192x192.png" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
       <body className={`${vt323.className} text-xl leading-relaxed`}>
         {children}
@@ -29,7 +29,7 @@ export default function RootLayout({
             __html: `
               if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
-                  navigator.serviceWorker.register('/todo/sw.js').then(
+                  navigator.serviceWorker.register('/sw.js').then(
                     function(registration) {
                       console.log('Service Worker registration successful with scope: ', registration.scope);
                     },

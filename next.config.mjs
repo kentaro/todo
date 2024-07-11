@@ -15,8 +15,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: '/todo',
-  assetPrefix: '/todo/',
+  basePath: '/',
+  assetPrefix: '/',
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.plugins.push(
       new webpack.DefinePlugin({
