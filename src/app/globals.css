@@ -37,10 +37,10 @@ body {
   padding: 1.5rem;
 }
 
-.y2k-card:hover {
+/* .y2k-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 25px rgba(255, 105, 180, 0.7);
-}
+} */
 
 .y2k-input {
   background: var(--input-bg);
@@ -81,7 +81,6 @@ body {
   display: flex;
   align-items: center;
   padding: 1rem;
-  animation: fadeIn 0.5s ease-out;
   word-break: break-word;
   margin-bottom: 1rem;
 }
