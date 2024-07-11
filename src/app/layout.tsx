@@ -6,8 +6,8 @@ import Y2KLogo from "@/components/y2k-logo";
 const vt323 = VT323({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TODO",
-  description: "シンプルなTODOアプリ",
+  title: "SUPER TODO",
+  description: "スーパーTODOアプリ",
 };
 
 export default function RootLayout({

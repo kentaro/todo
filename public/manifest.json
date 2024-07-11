@@ -1,7 +1,7 @@
 {
-  "name": "TODO",
-  "short_name": "TODO",
-  "description": "シンプルなTODOアプリ",
+  "name": "SUPER TODO",
+  "short_name": "SUPER TODO",
+  "description": "スーパーTODOアプリ",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
