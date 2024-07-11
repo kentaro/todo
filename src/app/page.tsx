@@ -114,7 +114,7 @@ export default function Home() {
           <Y2KLogo className="text-6xl" />
         </div>
       </header>
-      <main className="flex-grow overflow-y-auto p-4">
+      <main className="flex-grow overflow-y-auto my-4">
         <div className="container mx-auto max-w-2xl">
           {!isLoaded ? (
             <div className="text-center mt-4 text-secondary">読み込み中...</div>
@@ -129,7 +129,7 @@ export default function Home() {
           )}
         </div>
       </main>
-      <footer className="bg-[var(--footer-bg)] p-4">
+      <footer className="bg-[var(--footer-bg)] py-4">
         <div className="container mx-auto max-w-2xl">
           <AddTodo onAdd={addTodo} />
         </div>
