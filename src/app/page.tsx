@@ -5,19 +5,29 @@ import { TodoList } from '@/components/todo-list'
 import { AddTodo } from '@/components/add-todo'
 import { Todo } from '@/types'
 import Y2KLogo from '@/components/y2k-logo'
+import { SpeechToggle } from '@/components/speech-toggle'
 
 function canUseNotifications() {
   return 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
 }
 
+function canUseSpeechSynthesis() {
+  return 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+}
+
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isSpeechEnabled, setIsSpeechEnabled] = useState(false)
 
   useEffect(() => {
     const storedTodos = localStorage.getItem('todos')
+    const storedSpeechEnabled = localStorage.getItem('speechEnabled')
     if (storedTodos) {
       setTodos(JSON.parse(storedTodos))
+    }
+    if (storedSpeechEnabled) {
+      setIsSpeechEnabled(JSON.parse(storedSpeechEnabled))
     }
     setIsLoaded(true)
 
@@ -43,6 +53,12 @@ export default function Home() {
     } else {
       console.log('このブラウザでは通知機能がサポートされていません');
     }
+
+    if (canUseSpeechSynthesis()) {
+      console.log('音声合成が利用可能です');
+    } else {
+      console.log('音声合成が利用できません');
+    }
   }, [])
 
   useEffect(() => {
@@ -54,18 +70,24 @@ export default function Home() {
     const checkDeadlines = () => {
       const now = new Date();
       todos.forEach((todo) => {
-        if (todo.dueDate && new Date(todo.dueDate) <= now && !todo.notified) {
-          sendNotification(todo);
-          setTodos((prevTodos) =>
-            prevTodos.map((t) =>
-              t.id === todo.id ? { ...t, notified: true } : t
-            )
-          );
+        if (todo.dueDate) {
+          const dueDate = new Date(todo.dueDate);
+          const timeDiff = dueDate.getTime() - now.getTime();
+          const minutesDiff = Math.floor(timeDiff / (1000 * 60));
+          if (minutesDiff <= 30 && minutesDiff > 0 && !todo.notified) {
+            sendNotification(todo);
+            speakNotification(todo, minutesDiff);
+            setTodos((prevTodos) =>
+              prevTodos.map((t) =>
+                t.id === todo.id ? { ...t, notified: true } : t
+              )
+            );
+          }
         }
       });
     };
 
-    const intervalId = setInterval(checkDeadlines, 60000); // 1分ごとにチェック
+    const intervalId = setInterval(checkDeadlines, 10000); // 10秒ごとにチェック
 
     return () => clearInterval(intervalId);
   }, [todos, isLoaded])
@@ -117,11 +139,34 @@ export default function Home() {
     }
   };
 
+  const speakNotification = (todo: Todo, minutesLeft: number) => {
+    if (isSpeechEnabled && canUseSpeechSynthesis()) {
+      const utterance = new SpeechSynthesisUtterance(
+        `タスク「${todo.title}」の期限まであと${minutesLeft}分です。`
+      );
+      utterance.lang = 'ja-JP';
+      utterance.volume = 1;
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen bg-background text-foreground">
       <header className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 p-6 shadow-md header-sparkle">
-        <div className="container mx-auto flex items-center justify-center">
-          <Y2KLogo className="text-6xl" />
+        <div className="container mx-auto flex items-center justify-between">
+          <div className="w-10"></div>
+          <div className="flex-grow flex justify-center">
+            <Y2KLogo className="text-6xl" />
+          </div>
+          <SpeechToggle
+            isEnabled={isSpeechEnabled}
+            onToggle={(enabled) => {
+              setIsSpeechEnabled(enabled);
+              localStorage.setItem('speechEnabled', JSON.stringify(enabled));
+            }}
+          />
         </div>
       </header>
       <main className="flex-grow overflow-hidden py-8">
