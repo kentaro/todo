@@ -36,7 +36,9 @@ export function AddTodo({ onAdd }: AddTodoProps) {
         if (imageData) {
           const code = jsQR(imageData.data, imageData.width, imageData.height)
           if (code) {
-            setScanResult(code.data)
+            var text_decoder = new TextDecoder('shift-jis');
+            var str = text_decoder.decode(Uint8Array.from(code.binaryData).buffer);
+            setScanResult(str);
           }
         }
       }
