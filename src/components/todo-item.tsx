@@ -89,14 +89,12 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
           </p>
         )}
       </div>
-      <div className="flex flex-col gap-2">
-        <Button onClick={() => setIsEditing(true)} className="y2k-button w-24 h-10 p-0 flex items-center justify-center">
-          <Edit className="w-5 h-5 mr-1" />
-          <span>編集</span>
+      <div className="flex flex-col sm:flex-row gap-2">
+        <Button onClick={() => setIsEditing(true)} className="y2k-button w-18 h-10 p-0 flex items-center justify-center">
+          <Edit className="w-5 h-5" />
         </Button>
-        <Button onClick={() => onDelete(todo.id)} className="y2k-button bg-red-500 hover:bg-red-600 w-24 h-10 p-0 flex items-center justify-center">
-          <Trash className="w-5 h-5 mr-1" />
-          <span>削除</span>
+        <Button onClick={() => onDelete(todo.id)} className="y2k-button bg-red-500 hover:bg-red-600 w-18 h-10 p-0 flex items-center justify-center">
+          <Trash className="w-5 h-5" />
         </Button>
       </div>
     </div>
