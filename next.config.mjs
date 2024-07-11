@@ -15,7 +15,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: '/',
+  basePath: '',
   assetPrefix: '/',
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.plugins.push(

@@ -3,7 +3,8 @@
 import { useState, useCallback } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Mic, Plus } from "lucide-react"
+import { Mic, Plus, QrCode, X } from "lucide-react"
+import { useZxing } from "react-zxing";
 
 type AddTodoProps = {
   onAdd: (title: string, dueDate?: Date) => void
@@ -14,6 +15,25 @@ export function AddTodo({ onAdd }: AddTodoProps) {
   const [dueDate, setDueDate] = useState('')
   const [dueTime, setDueTime] = useState('')
   const [isListening, setIsListening] = useState(false)
+  const { ref } = useZxing({
+    onDecodeResult(result) {
+      setScanResult(result.getText());
+    },
+  });
+  const [scanResult, setScanResult] = useState<string | null>(null);
+  const [showScanner, setShowScanner] = useState(false);
+
+  const toggleScanner = () => {
+    setShowScanner(!showScanner);
+  };
+
+  const handleScanConfirm = () => {
+    if (scanResult) {
+      setTitle(scanResult);
+      setScanResult(null);
+      setShowScanner(false);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -24,6 +44,7 @@ export function AddTodo({ onAdd }: AddTodoProps) {
       setTitle('')
       setDueDate('')
       setDueTime('')
+      setShowScanner(false)
     }
   }
 
@@ -75,16 +96,25 @@ export function AddTodo({ onAdd }: AddTodoProps) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="新しいタスクを入力"
-            className="y2k-input text-lg p-3 pr-12 border-b-2 border-secondary focus:border-primary"
+            className="y2k-input text-lg p-3 pr-24 border-b-2 border-secondary focus:border-primary"
           />
-          <Button
-            type="button"
-            onClick={startListening}
-            disabled={isListening}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-transparent hover:bg-transparent"
-          >
-            <Mic className={`w-6 h-6 ${isListening ? 'text-accent animate-pulse' : 'text-primary'}`} />
-          </Button>
+          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
+            <Button
+              type="button"
+              onClick={() => setShowScanner(true)}
+              className="bg-transparent hover:bg-transparent p-1"
+            >
+              <QrCode className="w-5 h-5 text-primary" />
+            </Button>
+            <Button
+              type="button"
+              onClick={startListening}
+              disabled={isListening}
+              className="bg-transparent hover:bg-transparent p-1"
+            >
+              <Mic className={`w-5 h-5 ${isListening ? 'text-accent animate-pulse' : 'text-primary'}`} />
+            </Button>
+          </div>
         </div>
         <div className="flex gap-4">
           <Input
@@ -106,6 +136,32 @@ export function AddTodo({ onAdd }: AddTodoProps) {
             <span>追加</span>
           </Button>
         </div>
+        {showScanner && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-4 rounded-lg max-w-sm w-full">
+              <div className="mb-4">
+                <video ref={ref} className="w-full" />
+              </div>
+              {scanResult && (
+                <div className="mb-4">
+                  <p className="text-lg font-semibold">スキャン結果:</p>
+                  <p className="break-all">{scanResult}</p>
+                </div>
+              )}
+              <div className="flex justify-end gap-2">
+                <Button onClick={() => {
+                  setShowScanner(false);
+                  setScanResult(null);
+                }} className="y2k-button">
+                  キャンセル
+                </Button>
+                <Button onClick={handleScanConfirm} className="y2k-button" disabled={!scanResult}>
+                  OK
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </form>
   )
