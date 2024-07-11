@@ -14,7 +14,7 @@ const Y2KLogo = ({ className }: Y2KLogoProps) => {
           WebkitTextStroke: '1px rgba(255, 255, 255, 0.5)',
         }}
       >
-        TODO
+        SUPER TODO
       </span>
     </div>
   );
