@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Mic, Plus, QrCode, X } from "lucide-react"
-import { useZxing } from "react-zxing";
+import { Mic, Plus, QrCode, X, Check } from "lucide-react"
+import Webcam from 'react-webcam'
+import jsQR from 'jsqr'
 
 type AddTodoProps = {
   onAdd: (title: string, dueDate?: Date) => void
@@ -15,64 +16,56 @@ export function AddTodo({ onAdd }: AddTodoProps) {
   const [dueDate, setDueDate] = useState('')
   const [dueTime, setDueTime] = useState('')
   const [isListening, setIsListening] = useState(false)
-  const [scanResult, setScanResult] = useState<string | null>(null);
-  const [showScanner, setShowScanner] = useState(false);
-  const [cameraError, setCameraError] = useState<string | null>(null);
+  const [showScanner, setShowScanner] = useState(false)
+  const [scanResult, setScanResult] = useState<string | null>(null)
+  const [cameraError, setCameraError] = useState<string | null>(null)
+  const webcamRef = useRef<Webcam>(null)
 
-  const { ref } = useZxing({
-    onDecodeResult(result) {
-      setScanResult(result.getText());
-    },
-    onError(error) {
-      console.error("QRコードスキャンエラー:", error);
-      setCameraError("QRコードのスキャンに失敗しました。");
-    },
-    constraints: {
-      video: { facingMode: 'environment' }
-    },
-    timeBetweenDecodingAttempts: 300,
-  });
-
-  useEffect(() => {
-    let stream: MediaStream | null = null;
-
-    const initializeCamera = async () => {
-      if (showScanner) {
-        try {
-          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-          if (ref.current) {
-            ref.current.srcObject = stream;
-            await ref.current.play();
+  const captureQR = useCallback(() => {
+    const imageSrc = webcamRef.current?.getScreenshot()
+    if (imageSrc) {
+      const image = new Image()
+      image.src = imageSrc
+      image.onload = () => {
+        const canvas = document.createElement('canvas')
+        canvas.width = image.width
+        canvas.height = image.height
+        const ctx = canvas.getContext('2d')
+        ctx?.drawImage(image, 0, 0, image.width, image.height)
+        const imageData = ctx?.getImageData(0, 0, image.width, image.height)
+        if (imageData) {
+          const code = jsQR(imageData.data, imageData.width, imageData.height)
+          if (code) {
+            setScanResult(code.data)
           }
-        } catch (error) {
-          console.error("カメラアクセスエラー:", error);
-          setCameraError("カメラへのアクセスが拒否されました。ブラウザの設定を確認してください。");
         }
       }
-    };
+    }
+  }, [webcamRef])
 
-    initializeCamera();
-
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout
+    if (showScanner) {
+      intervalId = setInterval(captureQR, 500) // 0.5秒ごとにスキャン
+    }
     return () => {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
-    };
-  }, [showScanner, ref]);
+      if (intervalId) clearInterval(intervalId)
+    }
+  }, [showScanner, captureQR])
 
   const toggleScanner = () => {
-    setShowScanner(!showScanner);
-    setCameraError(null);
-    setScanResult(null);
-  };
+    setShowScanner(!showScanner)
+    setCameraError(null)
+    setScanResult(null)
+  }
 
   const handleScanConfirm = () => {
     if (scanResult) {
-      setTitle(scanResult);
-      setScanResult(null);
-      setShowScanner(false);
+      setTitle(scanResult)
+      setScanResult(null)
+      setShowScanner(false)
     }
-  };
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -183,22 +176,27 @@ export function AddTodo({ onAdd }: AddTodoProps) {
               ) : (
                 <>
                   <div className="mb-4 relative">
-                    <video ref={ref} className="w-full h-64 object-cover" playsInline />
+                    <Webcam
+                      audio={false}
+                      ref={webcamRef}
+                      screenshotFormat="image/jpeg"
+                      videoConstraints={{ facingMode: 'environment' }}
+                      className="w-full h-64 object-cover"
+                    />
                   </div>
                   {scanResult && (
                     <div className="mb-4">
-                      <p className="text-lg font-semibold">スキャン結果:</p>
-                      <p className="break-all">{scanResult}</p>
+                      <p className="break-all text-center text-lg">{scanResult}</p>
                     </div>
                   )}
                 </>
               )}
-              <div className="flex justify-end gap-2">
-                <Button onClick={toggleScanner} className="y2k-button">
-                  キャンセル
+              <div className="flex gap-2">
+                <Button onClick={handleScanConfirm} className="y2k-button flex-grow" disabled={!scanResult}>
+                  <Check className="w-5 h-5" />
                 </Button>
-                <Button onClick={handleScanConfirm} className="y2k-button" disabled={!scanResult}>
-                  OK
+                <Button onClick={toggleScanner} className="y2k-button flex-grow">
+                  <X className="w-5 h-5" />
                 </Button>
               </div>
             </div>
