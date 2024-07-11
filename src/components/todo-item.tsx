@@ -43,20 +43,20 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
         <Input
           value={editTitle}
           onChange={(e) => setEditTitle(e.target.value)}
-          className="y2k-input"
+          className="y2k-input text-lg p-3 pr-12 border-b-2 border-secondary focus:border-primary"
         />
         <div className="flex flex-col sm:flex-row gap-2">
           <Input
             type="date"
             value={editDueDate}
             onChange={(e) => setEditDueDate(e.target.value)}
-            className="y2k-input flex-grow"
+            className="y2k-input flex-grow text-lg p-3 border-b-2 border-secondary focus:border-primary"
           />
           <Input
             type="time"
             value={editDueTime}
             onChange={(e) => setEditDueTime(e.target.value)}
-            className="y2k-input flex-grow"
+            className="y2k-input flex-grow text-lg p-3 border-b-2 border-secondary focus:border-primary"
           />
         </div>
         <div className="flex gap-2">
@@ -72,7 +72,7 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
   }
 
   return (
-    <div className={`y2k-card flex items-start gap-4 p-4 todo-item ${todo.completed ? 'bg-opacity-50' : ''}`}>
+    <div className={`y2k-card flex gap-2 p-4 mb-4 todo-item ${todo.completed ? 'bg-opacity-50' : ''}`}>
       <Checkbox
         checked={todo.completed}
         onCheckedChange={() => onToggle(todo.id)}

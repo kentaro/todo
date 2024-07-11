@@ -75,7 +75,7 @@ export function AddTodo({ onAdd }: AddTodoProps) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="新しいタスクを入力"
-            className="y2k-input text-lg p-3 pr-12"
+            className="y2k-input text-lg p-3 pr-12 border-b-2 border-secondary focus:border-primary"
           />
           <Button
             type="button"

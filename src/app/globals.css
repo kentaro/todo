@@ -81,15 +81,9 @@ body {
   display: flex;
   align-items: center;
   padding: 1rem;
-  border-bottom: 1px solid var(--secondary);
   animation: fadeIn 0.5s ease-out;
   word-break: break-word;
   margin-bottom: 1rem;
-}
-
-.todo-item:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
 }
 
 .todo-list {

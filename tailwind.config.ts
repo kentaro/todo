@@ -53,6 +53,16 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      borderWidth: {
+        '1': '1px',
+        '2': '2px',
+        '3': '3px',
+        '4': '4px',
+        'b-1': '0 0 1px 0',
+        'b-2': '0 0 2px 0',
+        'b-3': '0 0 3px 0',
+        'b-4': '0 0 4px 0',
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
