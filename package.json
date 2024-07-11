@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && cp public/sw.js out/sw.js",
+    "build": "next build && node scripts/process-sw.js && cp public/sw.js out/sw.js",
     "start": "next start",
     "lint": "next lint"
   },
