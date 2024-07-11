@@ -36,8 +36,23 @@ export function AddTodo({ onAdd }: AddTodoProps) {
         if (imageData) {
           const code = jsQR(imageData.data, imageData.width, imageData.height)
           if (code) {
-            var text_decoder = new TextDecoder('shift-jis');
-            var str = text_decoder.decode(Uint8Array.from(code.binaryData).buffer);
+            const buffer = Uint8Array.from(code.binaryData).buffer;
+            let str: string;
+
+            // UTF-8でデコード可能かチェック
+            const utf8Decoder = new TextDecoder('utf-8', { fatal: true });
+            try {
+              str = utf8Decoder.decode(buffer);
+            } catch (e) {
+              // UTF-8でデコードできない場合、Shift_JISでデコード
+              const sjisDecoder = new TextDecoder('shift-jis', { fatal: true });
+              try {
+                str = sjisDecoder.decode(buffer);
+              } catch (e) {
+                // Shift_JISでもデコードできない場合
+                str = '不明なエンコーディング';
+              }
+            }
             setScanResult(str);
           }
         }
