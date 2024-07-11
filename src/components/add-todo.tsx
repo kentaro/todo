@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Mic, Plus, QrCode, X } from "lucide-react"
@@ -15,16 +15,56 @@ export function AddTodo({ onAdd }: AddTodoProps) {
   const [dueDate, setDueDate] = useState('')
   const [dueTime, setDueTime] = useState('')
   const [isListening, setIsListening] = useState(false)
+  const [scanResult, setScanResult] = useState<string | null>(null);
+  const [showScanner, setShowScanner] = useState(false);
+  const [cameraError, setCameraError] = useState<string | null>(null);
+
   const { ref } = useZxing({
     onDecodeResult(result) {
       setScanResult(result.getText());
     },
+    onError(error) {
+      console.error("QRコードスキャンエラー:", error);
+      setCameraError("QRコードのスキャンに失敗しました。");
+    },
+    constraints: {
+      facingMode: 'environment'
+    },
+    timeBetweenDecodingAttempts: 300,
+    formats: ['qr_code'],
   });
-  const [scanResult, setScanResult] = useState<string | null>(null);
-  const [showScanner, setShowScanner] = useState(false);
+
+  useEffect(() => {
+    let stream: MediaStream | null = null;
+
+    const initializeCamera = async () => {
+      if (showScanner) {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+          if (ref.current) {
+            ref.current.srcObject = stream;
+            await ref.current.play();
+          }
+        } catch (error) {
+          console.error("カメラアクセスエラー:", error);
+          setCameraError("カメラへのアクセスが拒否されました。ブラウザの設定を確認してください。");
+        }
+      }
+    };
+
+    initializeCamera();
+
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [showScanner, ref]);
 
   const toggleScanner = () => {
     setShowScanner(!showScanner);
+    setCameraError(null);
+    setScanResult(null);
   };
 
   const handleScanConfirm = () => {
@@ -139,20 +179,23 @@ export function AddTodo({ onAdd }: AddTodoProps) {
         {showScanner && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-4 rounded-lg max-w-sm w-full">
-              <div className="mb-4">
-                <video ref={ref} className="w-full" />
-              </div>
-              {scanResult && (
-                <div className="mb-4">
-                  <p className="text-lg font-semibold">スキャン結果:</p>
-                  <p className="break-all">{scanResult}</p>
-                </div>
+              {cameraError ? (
+                <p className="text-red-500 mb-4">{cameraError}</p>
+              ) : (
+                <>
+                  <div className="mb-4 relative">
+                    <video ref={ref} className="w-full h-64 object-cover" playsInline />
+                  </div>
+                  {scanResult && (
+                    <div className="mb-4">
+                      <p className="text-lg font-semibold">スキャン結果:</p>
+                      <p className="break-all">{scanResult}</p>
+                    </div>
+                  )}
+                </>
               )}
               <div className="flex justify-end gap-2">
-                <Button onClick={() => {
-                  setShowScanner(false);
-                  setScanResult(null);
-                }} className="y2k-button">
+                <Button onClick={toggleScanner} className="y2k-button">
                   キャンセル
                 </Button>
                 <Button onClick={handleScanConfirm} className="y2k-button" disabled={!scanResult}>
