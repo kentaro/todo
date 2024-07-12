@@ -110,7 +110,7 @@ export function TodoItem({
 
   return (
     <div
-      className={`y2k-card flex items-center gap-2 p-3 mb-2 todo-item ${
+      className={`y2k-card flex items-center gap-2 p-3 my-2 todo-item ${
         todo.completed ? "bg-opacity-50" : ""
       }`}
     >

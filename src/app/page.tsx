@@ -178,20 +178,20 @@ export default function Home() {
           </div>
         </div>
       </header>
-      <main className="flex-grow overflow-hidden py-8">
-        <div className="container mx-auto max-w-2xl h-full flex flex-col px-4">
+      <main className="flex-grow overflow-hidden flex flex-col">
+        <div className="container mx-auto max-w-2xl flex-grow flex flex-col px-4 py-4 overflow-hidden">
           {!isLoaded ? (
             <div className="text-center mt-4 text-secondary">読み込み中...</div>
           ) : todos.length > 0 ? (
-            <div className="overflow-y-auto flex-grow pr-2">
+            <div className="overflow-y-auto flex-grow">
               <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} onUpdate={updateTodo} />
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center h-full">
-              <div className="text-4xl font-bold text-accent mb-4">✨</div>
-              <p className="text-2xl font-bold text-accent mb-2">タスクがありません</p>
-              <p className="text-lg text-secondary">新しいタスクを追加して始めましょう！</p>
-            </div>
+            <div className="text-4xl font-bold text-accent mb-4">✨</div>
+            <p className="text-2xl font-bold text-accent mb-2">タスクがありません</p>
+            <p className="text-lg text-secondary">新しいタスクを追加して始めましょう！</p>
+          </div>
           )}
         </div>
       </main>

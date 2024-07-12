@@ -35,7 +35,7 @@ export function TodoList({ todos, onToggle, onDelete, onUpdate }: TodoListProps)
   });
 
   return (
-    <div>
+    <div className="space-y-2 pb-4">
       {sortedTodos.map((todo) => (
         <TodoItem
           key={todo.id}
