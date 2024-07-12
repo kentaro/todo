@@ -12,9 +12,19 @@ type AddTodoProps = {
 }
 
 export function AddTodo({ onAdd }: AddTodoProps) {
+  const getCurrentDate = () => {
+    const now = new Date()
+    return now.toISOString().split('T')[0]
+  }
+
+  const getCurrentTime = () => {
+    const now = new Date()
+    return now.toTimeString().slice(0, 5)
+  }
+
   const [title, setTitle] = useState('')
-  const [dueDate, setDueDate] = useState('')
-  const [dueTime, setDueTime] = useState('')
+  const [dueDate, setDueDate] = useState(getCurrentDate())
+  const [dueTime, setDueTime] = useState(getCurrentTime())
   const [isListening, setIsListening] = useState(false)
   const [showScanner, setShowScanner] = useState(false)
   const [scanResult, setScanResult] = useState<string | null>(null)
