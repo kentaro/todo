@@ -70,7 +70,7 @@ export default function Home() {
     const checkDeadlines = () => {
       const now = new Date();
       todos.forEach((todo) => {
-        if (todo.dueDate) {
+        if (todo.dueDate && !todo.completed) {  // !todo.completed added
           const dueDate = new Date(todo.dueDate);
           const timeDiff = dueDate.getTime() - now.getTime();
           const minutesDiff = Math.floor(timeDiff / (1000 * 60));
