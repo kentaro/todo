@@ -167,7 +167,7 @@ export default function Home() {
           <div className="flex-grow flex justify-center">
             <Y2KLogo className="text-6xl" />
           </div>
-          <div className="w-10 flex justify-end">
+          <div className="w-10 flex justify-end ml-auto">
             <SpeechToggle
               isEnabled={isSpeechEnabled}
               onToggle={(enabled) => {
