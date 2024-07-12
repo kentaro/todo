@@ -163,8 +163,8 @@ export default function Home() {
   return (
     <div className="flex flex-col h-screen bg-background text-foreground">
       <header className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 p-4 shadow-md header-sparkle">
-        <div className="container mx-auto flex items-center justify-between">
-          <div className="flex-grow flex justify-center">
+        <div className="container mx-auto flex items-center justify-center">
+          <div className="flex-grow flex">
             <Y2KLogo className="text-3xl sm:text-5xl" />
             <Image src="/icon-512x512.png" alt="App Icon" width={40} height={40} className="ml-2" />
           </div>
