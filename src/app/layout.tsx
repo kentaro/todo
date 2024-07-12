@@ -8,7 +8,12 @@ export const metadata: Metadata = {
   title: "SUPER TODO",
   description: "スーパーTODOアプリ",
   icons: {
-    icon: "/icon-192x192.png",
+    icon: [
+      { url: "/icon-192x192.png" },
+      { url: "/icon-512x512.png" },
+    ],
+    apple: "/icon-512x512.png",
+    shortcut: "/icon-512x512.png",
   },
 };
 
