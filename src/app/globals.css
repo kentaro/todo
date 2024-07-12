@@ -82,7 +82,7 @@ body {
   align-items: center;
   padding: 1rem;
   word-break: break-word;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .todo-list {
