@@ -16,7 +16,7 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
   const [isEditing, setIsEditing] = useState(false)
   const [editTitle, setEditTitle] = useState(todo.title)
   const [editDueDate, setEditDueDate] = useState(todo.dueDate ? new Date(todo.dueDate).toISOString().split('T')[0] : '')
-  const [editDueTime, setEditDueTime] = useState(todo.dueDate ? new Date(todo.dueDate).toISOString().split('T')[1].substr(0, 5) : '')
+  const [editDueTime, setEditDueTime] = useState(todo.dueDate ? new Date(todo.dueDate).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', hour12: false }) : '')
 
   const formatDate = (date: Date | string) => {
     const dateObj = date instanceof Date ? date : new Date(date)
@@ -25,13 +25,14 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
       month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
+      hour12: false
     })
   }
 
   const handleUpdate = () => {
     const newDueDate = editDueDate && editDueTime
-      ? new Date(`${editDueDate}T${editDueTime}`)
+      ? new Date(`${editDueDate}T${editDueTime}:00`)
       : undefined
     onUpdate(todo.id, editTitle, newDueDate)
     setIsEditing(false)
