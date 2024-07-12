@@ -1,42 +1,75 @@
-import { useState } from 'react'
-import { Todo } from '@/types'
-import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Edit, Trash, Check, X } from "lucide-react"
+import { useState, useRef, useEffect } from "react";
+import { Todo } from "@/types";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Edit, Trash, Check, X, Menu } from "lucide-react";
 
 type TodoItemProps = {
-  todo: Todo
-  onToggle: (id: number) => void
-  onDelete: (id: number) => void
-  onUpdate: (id: number, newTitle: string, newDueDate?: Date) => void
-}
+  todo: Todo;
+  onToggle: (id: number) => void;
+  onDelete: (id: number) => void;
+  onUpdate: (id: number, newTitle: string, newDueDate?: Date) => void;
+};
 
-export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) {
-  const [isEditing, setIsEditing] = useState(false)
-  const [editTitle, setEditTitle] = useState(todo.title)
-  const [editDueDate, setEditDueDate] = useState(todo.dueDate ? new Date(todo.dueDate).toISOString().split('T')[0] : '')
-  const [editDueTime, setEditDueTime] = useState(todo.dueDate ? new Date(todo.dueDate).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', hour12: false }) : '')
+export function TodoItem({
+  todo,
+  onToggle,
+  onDelete,
+  onUpdate,
+}: TodoItemProps) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editTitle, setEditTitle] = useState(todo.title);
+  const [editDueDate, setEditDueDate] = useState(
+    todo.dueDate ? new Date(todo.dueDate).toISOString().split("T")[0] : ""
+  );
+  const [editDueTime, setEditDueTime] = useState(
+    todo.dueDate
+      ? new Date(todo.dueDate).toLocaleTimeString("ja-JP", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
+      : ""
+  );
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const formatDate = (date: Date | string) => {
-    const dateObj = date instanceof Date ? date : new Date(date)
-    return dateObj.toLocaleString('ja-JP', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    })
-  }
+    const dateObj = date instanceof Date ? date : new Date(date);
+    return dateObj.toLocaleString("ja-JP", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+  };
 
   const handleUpdate = () => {
-    const newDueDate = editDueDate && editDueTime
-      ? new Date(`${editDueDate}T${editDueTime}:00`)
-      : undefined
-    onUpdate(todo.id, editTitle, newDueDate)
-    setIsEditing(false)
-  }
+    const newDueDate =
+      editDueDate && editDueTime
+        ? new Date(`${editDueDate}T${editDueTime}:00`)
+        : undefined;
+    onUpdate(todo.id, editTitle, newDueDate);
+    setIsEditing(false);
+  };
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   if (isEditing) {
     return (
@@ -64,16 +97,23 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
           <Button onClick={handleUpdate} className="y2k-button flex-grow">
             <Check className="w-5 h-5" />
           </Button>
-          <Button onClick={() => setIsEditing(false)} className="y2k-button flex-grow">
+          <Button
+            onClick={() => setIsEditing(false)}
+            className="y2k-button flex-grow"
+          >
             <X className="w-5 h-5" />
           </Button>
         </div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className={`y2k-card flex gap-2 p-4 mb-4 todo-item ${todo.completed ? 'bg-opacity-50' : ''}`}>
+    <div
+      className={`y2k-card flex gap-2 p-4 mb-4 todo-item ${
+        todo.completed ? "bg-opacity-50" : ""
+      }`}
+    >
       <Checkbox
         checked={todo.completed}
         onCheckedChange={() => onToggle(todo.id)}
@@ -81,7 +121,11 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
         className="border-2 border-primary w-6 h-6 mt-1"
       />
       <div className="flex-grow overflow-hidden">
-        <p className={`text-lg font-semibold mb-1 overflow-hidden text-ellipsis break-words ${todo.completed ? 'line-through text-gray-500' : ''}`}>
+        <p
+          className={`text-lg font-semibold mb-1 overflow-hidden text-ellipsis break-words ${
+            todo.completed ? "line-through text-gray-500" : ""
+          }`}
+        >
           {todo.title}
         </p>
         {todo.dueDate && (
@@ -90,14 +134,31 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
           </p>
         )}
       </div>
-      <div className="flex flex-col sm:flex-row gap-2">
-        <Button onClick={() => setIsEditing(true)} className="y2k-button w-18 h-10 p-0 flex items-center justify-center">
-          <Edit className="w-5 h-5" />
-        </Button>
-        <Button onClick={() => onDelete(todo.id)} className="y2k-button bg-red-500 hover:bg-red-600 w-18 h-10 p-0 flex items-center justify-center">
-          <Trash className="w-5 h-5" />
-        </Button>
+      <div className="relative" ref={menuRef}>
+        <Menu onClick={toggleMenu} className="w-6 h-5" />
+        {isMenuOpen && (
+          <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+            <Button
+              onClick={() => {
+                setIsEditing(true);
+                setIsMenuOpen(false);
+              }}
+              className="w-full text-left px-4 py-2 hover:bg-gray-100"
+            >
+              編集
+            </Button>
+            <Button
+              onClick={() => {
+                onDelete(todo.id);
+                setIsMenuOpen(false);
+              }}
+              className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500"
+            >
+              削除
+            </Button>
+          </div>
+        )}
       </div>
     </div>
-  )
+  );
 }
