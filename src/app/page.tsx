@@ -70,12 +70,12 @@ export default function Home() {
     const checkDeadlines = () => {
       const now = new Date();
       todos.forEach((todo) => {
-        if (todo.dueDate && !todo.completed) {  // !todo.completed added
+        if (todo.dueDate && !todo.completed) {
           const dueDate = new Date(todo.dueDate);
           const timeDiff = dueDate.getTime() - now.getTime();
           const minutesDiff = Math.floor(timeDiff / (1000 * 60));
           if (minutesDiff <= 30 && minutesDiff > 0 && !todo.notified) {
-            sendNotification(todo);
+            sendNotification(todo, minutesDiff);
             speakNotification(todo, minutesDiff);
             setTodos((prevTodos) =>
               prevTodos.map((t) =>
@@ -132,11 +132,11 @@ export default function Home() {
     )
   }
 
-  const sendNotification = (todo: Todo) => {
+  const sendNotification = (todo: Todo, minutesLeft: number) => {
     if (canUseNotifications() && Notification.permission === 'granted') {
       navigator.serviceWorker.ready.then((registration) => {
         registration.showNotification('TODOの期限通知', {
-          body: `「${todo.title}」の期限が来ました。`,
+          body: `タスク「${todo.title}」の期限まであと${minutesLeft}分です。`,
           icon: '/icon-192x192.png',
           badge: '/icon-192x192.png'
         });
