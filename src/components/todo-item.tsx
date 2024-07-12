@@ -129,8 +129,8 @@ export function TodoItem({
           {todo.title}
         </p>
         {todo.dueDate && (
-          <p className="text-xs text-gray-500">
-            期限: {formatDate(todo.dueDate)}
+          <p className="text-sm text-gray-600">
+            {formatDate(todo.dueDate)}
           </p>
         )}
       </div>
