@@ -110,7 +110,7 @@ export function TodoItem({
 
   return (
     <div
-      className={`y2k-card flex gap-2 p-4 mb-4 todo-item ${
+      className={`y2k-card flex items-center gap-2 p-3 mb-2 todo-item ${
         todo.completed ? "bg-opacity-50" : ""
       }`}
     >
@@ -118,32 +118,32 @@ export function TodoItem({
         checked={todo.completed}
         onCheckedChange={() => onToggle(todo.id)}
         id={`todo-${todo.id}`}
-        className="border-2 border-primary w-6 h-6 mt-1"
+        className="border-2 border-primary w-5 h-5"
       />
       <div className="flex-grow overflow-hidden">
         <p
-          className={`text-lg font-semibold mb-1 overflow-hidden text-ellipsis break-words ${
+          className={`text-base font-semibold overflow-hidden text-ellipsis break-words ${
             todo.completed ? "line-through text-gray-500" : ""
           }`}
         >
           {todo.title}
         </p>
         {todo.dueDate && (
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-gray-500">
             期限: {formatDate(todo.dueDate)}
           </p>
         )}
       </div>
       <div className="relative" ref={menuRef}>
-        <Menu onClick={toggleMenu} className="w-6 h-5" />
+        <Menu onClick={toggleMenu} className="w-5 h-5" />
         {isMenuOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+          <div className="absolute right-0 mt-1 w-32 bg-white rounded-md shadow-lg z-10">
             <Button
               onClick={() => {
                 setIsEditing(true);
                 setIsMenuOpen(false);
               }}
-              className="w-full text-left px-4 py-2 hover:bg-gray-100"
+              className="w-full text-left px-2 py-1 text-sm hover:bg-gray-100"
             >
               編集
             </Button>
@@ -152,7 +152,7 @@ export function TodoItem({
                 onDelete(todo.id);
                 setIsMenuOpen(false);
               }}
-              className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-500"
+              className="w-full text-left px-2 py-1 text-sm hover:bg-gray-100 text-red-500"
             >
               削除
             </Button>
