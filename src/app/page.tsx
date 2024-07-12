@@ -74,7 +74,7 @@ export default function Home() {
           const dueDate = new Date(todo.dueDate);
           const timeDiff = dueDate.getTime() - now.getTime();
           const minutesDiff = Math.floor(timeDiff / (1000 * 60));
-          if (minutesDiff <= 30 && minutesDiff > 0 && !todo.notified) {
+          if (minutesDiff <= 10 && minutesDiff > 0 && !todo.notified) {
             sendNotification(todo, minutesDiff);
             speakNotification(todo, minutesDiff);
             setTodos((prevTodos) =>
