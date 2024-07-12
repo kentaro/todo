@@ -163,11 +163,11 @@ export default function Home() {
     <div className="flex flex-col h-screen bg-background text-foreground">
       <header className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 p-4 shadow-md header-sparkle">
         <div className="container mx-auto flex items-center justify-between">
-          <div className="w-1/4"></div>
-          <div className="w-1/2 flex justify-center">
-            <Y2KLogo className="text-5xl" />
+          <div className="w-10"></div>
+          <div className="flex-grow flex justify-center">
+            <Y2KLogo className="text-3xl sm:text-5xl" />
           </div>
-          <div className="w-1/4 flex justify-end">
+          <div className="w-10">
             <SpeechToggle
               isEnabled={isSpeechEnabled}
               onToggle={(enabled) => {
