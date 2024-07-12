@@ -160,13 +160,15 @@ export default function Home() {
           <div className="flex-grow flex justify-center">
             <Y2KLogo className="text-6xl" />
           </div>
-          <SpeechToggle
-            isEnabled={isSpeechEnabled}
-            onToggle={(enabled) => {
-              setIsSpeechEnabled(enabled);
-              localStorage.setItem('speechEnabled', JSON.stringify(enabled));
-            }}
-          />
+          <div className="w-10 flex justify-end">
+            <SpeechToggle
+              isEnabled={isSpeechEnabled}
+              onToggle={(enabled) => {
+                setIsSpeechEnabled(enabled);
+                localStorage.setItem('speechEnabled', JSON.stringify(enabled));
+              }}
+            />
+          </div>
         </div>
       </header>
       <main className="flex-grow overflow-hidden py-8">
