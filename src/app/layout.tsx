@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { VT323 } from "next/font/google";
 import "./globals.css";
-import Y2KLogo from "@/components/y2k-logo";
 
 const vt323 = VT323({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "SUPER TODO",
   description: "スーパーTODOアプリ",
+  icons: {
+    icon: "/icon-192x192.png",
+  },
 };
 
 export default function RootLayout({
@@ -46,4 +48,3 @@ export default function RootLayout({
     </html>
   );
 }
-

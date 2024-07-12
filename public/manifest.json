@@ -1,6 +1,6 @@
 {
   "name": "SUPER TODO",
-  "short_name": "SUPER TODO",
+  "short_name": "TODO",
   "description": "スーパーTODOアプリ",
   "start_url": "/",
   "display": "standalone",
