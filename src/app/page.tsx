@@ -93,11 +93,18 @@ export default function Home() {
   }, [todos, isLoaded])
 
   const addTodo = (title: string, dueDate?: Date) => {
+    let adjustedDueDate = dueDate;
+    if (dueDate) {
+      adjustedDueDate = new Date(dueDate);
+      if (adjustedDueDate.getHours() === 0 && adjustedDueDate.getMinutes() === 0) {
+        adjustedDueDate.setHours(23, 59, 59, 999);
+      }
+    }
     const newTodo: Todo = {
       id: Date.now(),
       title,
       completed: false,
-      dueDate,
+      dueDate: adjustedDueDate,
       notified: false,
     }
     setTodos([newTodo, ...todos])

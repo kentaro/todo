@@ -87,8 +87,20 @@ export function AddTodo({ onAdd }: AddTodoProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (title.trim()) {
-      const dueDateTimeString = dueDate && dueTime ? `${dueDate}T${dueTime}` : undefined
-      const dueDateObj = dueDateTimeString ? new Date(dueDateTimeString) : undefined
+      let dueDateObj: Date | undefined = undefined
+      if (dueDate || dueTime) {
+        dueDateObj = new Date()
+        if (dueDate) {
+          const [year, month, day] = dueDate.split('-').map(Number)
+          dueDateObj.setFullYear(year, month - 1, day)
+        }
+        if (dueTime) {
+          const [hours, minutes] = dueTime.split(':').map(Number)
+          dueDateObj.setHours(hours, minutes, 0, 0)
+        } else {
+          dueDateObj.setHours(0, 0, 0, 0)
+        }
+      }
       onAdd(title.trim(), dueDateObj)
       setTitle('')
       setDueDate('')

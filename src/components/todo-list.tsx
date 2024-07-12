@@ -43,7 +43,6 @@ export function TodoList({ todos, onToggle, onDelete, onUpdate }: TodoListProps)
           onToggle={onToggle}
           onDelete={onDelete}
           onUpdate={onUpdate}
-          isAnimated={todo.id === animatedTodoId}
         />
       ))}
     </div>
