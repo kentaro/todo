@@ -63,7 +63,6 @@ export function PomodoroTimer({ isOpen, onClose, onTimerStateChange }: PomodoroT
         >
           <X size={24} />
         </button>
-        <h2 className="text-2xl font-bold mb-4 text-accent text-center">ポモドーロタイマー</h2>
         <div className="text-6xl font-bold mb-4 text-center text-foreground">{formatTime(time)}</div>
         <div className="flex justify-center space-x-4 mb-4">
           <button
