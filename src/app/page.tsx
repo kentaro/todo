@@ -6,7 +6,9 @@ import { AddTodo } from '@/components/add-todo'
 import { Todo } from '@/types'
 import Y2KLogo from '@/components/y2k-logo'
 import { SpeechToggle } from '@/components/speech-toggle'
+import { PomodoroTimer } from '@/components/pomodoro-timer'
 import Image from 'next/image'
+import { Timer } from 'lucide-react'
 
 function canUseNotifications() {
   return 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
@@ -20,6 +22,8 @@ export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [isLoaded, setIsLoaded] = useState(false)
   const [isSpeechEnabled, setIsSpeechEnabled] = useState(false)
+  const [isPomodoroOpen, setIsPomodoroOpen] = useState(false)
+  const [isTimerActive, setIsTimerActive] = useState(false)
 
   useEffect(() => {
     const storedTodos = localStorage.getItem('todos')
@@ -67,7 +71,6 @@ export default function Home() {
       localStorage.setItem('todos', JSON.stringify(todos))
     }
 
-    // タスクの期限をチェック
     const checkDeadlines = () => {
       const now = new Date();
       todos.forEach((todo) => {
@@ -168,7 +171,15 @@ export default function Home() {
             <Y2KLogo className="text-3xl sm:text-5xl" />
             <Image src="/icon-512x512.png" alt="App Icon" width={40} height={40} className="ml-2" />
           </div>
-          <div className="w-10">
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={() => setIsPomodoroOpen(true)}
+              className={`flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full shadow-md transition-colors duration-200 ${
+                isTimerActive ? 'text-accent' : 'text-white'
+              }`}
+            >
+              <Timer size={20} />
+            </button>
             <SpeechToggle
               isEnabled={isSpeechEnabled}
               onToggle={(enabled) => {
@@ -191,10 +202,15 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center h-full">
             <div className="text-4xl font-bold text-accent mb-4">✨</div>
             <p className="text-2xl font-bold text-accent mb-2">タスクがありません</p>
-            <p className="text-lg text-secondary">新しいタスクを追加して始めましょう！</p>
+            <p className="text-lg text-secondary">新しいタスクを追加して始めまし���う！</p>
           </div>
           )}
         </div>
+        <PomodoroTimer
+          isOpen={isPomodoroOpen}
+          onClose={() => setIsPomodoroOpen(false)}
+          onTimerStateChange={setIsTimerActive}
+        />
       </main>
       <footer className="bg-[var(--footer-bg)] py-6">
         <div className="container mx-auto max-w-2xl px-4">
