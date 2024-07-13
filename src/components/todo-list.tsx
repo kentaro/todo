@@ -43,6 +43,7 @@ export function TodoList({ todos, onToggle, onDelete, onUpdate }: TodoListProps)
           onToggle={onToggle}
           onDelete={onDelete}
           onUpdate={onUpdate}
+          rewardId={`reward-${todo.id}`}
         />
       ))}
     </div>

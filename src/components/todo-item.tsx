@@ -4,12 +4,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Edit, Trash, Check, X, Menu } from "lucide-react";
+import { useReward } from 'react-rewards';
 
 type TodoItemProps = {
   todo: Todo;
   onToggle: (id: number) => void;
   onDelete: (id: number) => void;
   onUpdate: (id: number, newTitle: string, newDueDate?: Date) => void;
+  rewardId: string;
 };
 
 export function TodoItem({
@@ -17,7 +19,9 @@ export function TodoItem({
   onToggle,
   onDelete,
   onUpdate,
+  rewardId,
 }: TodoItemProps) {
+  const { reward } = useReward(rewardId, 'confetti');
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(todo.title);
   const [editDueDate, setEditDueDate] = useState(
@@ -71,6 +75,13 @@ export function TodoItem({
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+  const handleToggle = () => {
+    if (!todo.completed) {
+      reward();
+    }
+    onToggle(todo.id);
+  };
+
   if (isEditing) {
     return (
       <div className="y2k-card flex flex-col gap-2 p-4 mb-4">
@@ -114,12 +125,15 @@ export function TodoItem({
         todo.completed ? "bg-opacity-50" : ""
       }`}
     >
-      <Checkbox
-        checked={todo.completed}
-        onCheckedChange={() => onToggle(todo.id)}
-        id={`todo-${todo.id}`}
-        className="border-2 border-primary w-5 h-5"
-      />
+      <div className="relative inline-block">
+        <Checkbox
+          checked={todo.completed}
+          onCheckedChange={handleToggle}
+          id={`todo-${todo.id}`}
+          className="border-2 border-primary w-5 h-5 z-10 relative"
+        />
+        <span id={rewardId} className="absolute inset-0 pointer-events-none" />
+      </div>
       <div className="flex-grow overflow-hidden">
         <p
           className={`text-base font-semibold overflow-hidden text-ellipsis break-words ${

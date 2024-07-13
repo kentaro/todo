@@ -116,9 +116,12 @@ export default function Home() {
 
   const toggleTodo = (id: number) => {
     setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
+      todos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, completed: !todo.completed }
+        }
+        return todo
+      })
     )
   }
 
@@ -196,13 +199,18 @@ export default function Home() {
             <div className="text-center mt-4 text-secondary">読み込み中...</div>
           ) : todos.length > 0 ? (
             <div className="overflow-y-auto flex-grow">
-              <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} onUpdate={updateTodo} />
+              <TodoList
+                todos={todos}
+                onToggle={toggleTodo}
+                onDelete={deleteTodo}
+                onUpdate={updateTodo}
+              />
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center h-full">
             <div className="text-4xl font-bold text-accent mb-4">✨</div>
             <p className="text-2xl font-bold text-accent mb-2">タスクがありません</p>
-            <p className="text-lg text-secondary">新しいタスクを追加して始めまし���う！</p>
+            <p className="text-lg text-secondary">新しいタスクを追加して始めましょう！</p>
           </div>
           )}
         </div>
