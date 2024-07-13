@@ -21,7 +21,10 @@ export function TodoItem({
   onUpdate,
   rewardId,
 }: TodoItemProps) {
-  const { reward } = useReward(rewardId, 'confetti');
+  const { reward } = useReward(rewardId, 'confetti', {
+    angle: 60,
+    elementSize: 10,
+  });
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(todo.title);
   const [editDueDate, setEditDueDate] = useState(
