@@ -19,7 +19,7 @@ export function PomodoroTimer({ isOpen, onClose, onTimerStateChange }: PomodoroT
       interval = setInterval(() => {
         setTime((prevTime) => prevTime - 1);
       }, 1000);
-    } else if (time === 0) {
+    } else if (isActive && time === 0) {
       setIsActive(false);
       alert('ポモドーロセッションが終了しました！');
       resetTimer();
@@ -41,7 +41,7 @@ export function PomodoroTimer({ isOpen, onClose, onTimerStateChange }: PomodoroT
   };
 
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDuration = parseInt(e.target.value, 10);
+    const newDuration = Math.max(1, parseInt(e.target.value, 10) || 1);
     setDuration(newDuration);
     setTime(newDuration * 60);
   };
