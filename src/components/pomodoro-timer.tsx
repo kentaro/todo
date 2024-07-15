@@ -29,9 +29,11 @@ export function PomodoroTimer({ isOpen, onClose, onTimerStateChange }: PomodoroT
   }, [isActive, time]);
 
   const toggleTimer = () => {
-    const newState = !isActive;
-    setIsActive(newState);
-    onTimerStateChange(newState);
+    if (duration > 0) {
+      const newState = !isActive;
+      setIsActive(newState);
+      onTimerStateChange(newState);
+    }
   };
 
   const resetTimer = () => {
@@ -41,9 +43,15 @@ export function PomodoroTimer({ isOpen, onClose, onTimerStateChange }: PomodoroT
   };
 
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDuration = Math.max(1, parseInt(e.target.value, 10) || 1);
-    setDuration(newDuration);
-    setTime(newDuration * 60);
+    const inputValue = e.target.value;
+    if (inputValue === '') {
+      setDuration(0);
+      setTime(0);
+    } else {
+      const newDuration = Math.max(1, parseInt(inputValue, 10));
+      setDuration(newDuration);
+      setTime(newDuration * 60);
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -69,7 +77,8 @@ export function PomodoroTimer({ isOpen, onClose, onTimerStateChange }: PomodoroT
             onClick={toggleTimer}
             className={`px-6 py-2 rounded-full ${
               isActive ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'
-            } text-white font-bold transition-colors duration-200`}
+            } text-white font-bold transition-colors duration-200 ${duration === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={duration === 0}
           >
             {isActive ? '一時停止' : 'スタート'}
           </button>
@@ -87,7 +96,7 @@ export function PomodoroTimer({ isOpen, onClose, onTimerStateChange }: PomodoroT
           <input
             type="number"
             id="duration"
-            value={duration}
+            value={duration || ''}
             onChange={handleDurationChange}
             min="1"
             max="60"
