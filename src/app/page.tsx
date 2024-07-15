@@ -27,6 +27,7 @@ export default function Home() {
   const [isPomodoroOpen, setIsPomodoroOpen] = useState(false)
   const [isTimerActive, setIsTimerActive] = useState(false)
   const [isMemoPadOpen, setIsMemoPadOpen] = useState(false)
+  const [isDirectMemoOpen, setIsDirectMemoOpen] = useState(false)
 
   useEffect(() => {
     const storedTodos = localStorage.getItem('todos')
@@ -44,7 +45,7 @@ export default function Home() {
         if (permission === 'granted') {
           console.log('通知が許可されました');
         } else {
-          console.log('通知が許可され���せんでした');
+          console.log('通知が許可されせんでした');
         }
       });
 
@@ -66,6 +67,11 @@ export default function Home() {
       console.log('音声合成が利用可能です');
     } else {
       console.log('声合成が利用できません');
+    }
+
+    // URLのフラグメントをチェック
+    if (window.location.hash === '#memo') {
+      setIsDirectMemoOpen(true)
     }
   }, [])
 
@@ -234,7 +240,13 @@ export default function Home() {
           <AddTodo onAdd={addTodo} />
         </div>
       </footer>
-      <MemoPad isOpen={isMemoPadOpen} onClose={() => setIsMemoPadOpen(false)} />
+      <MemoPad isOpen={isMemoPadOpen || isDirectMemoOpen} onClose={() => {
+        setIsMemoPadOpen(false)
+        setIsDirectMemoOpen(false)
+        if (window.location.hash === '#memo') {
+          window.history.replaceState(null, '', window.location.pathname)
+        }
+      }} />
     </div>
   )
 }

@@ -17,5 +17,14 @@
       "sizes": "512x512",
       "type": "image/png"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "メモをする",
+      "short_name": "メモ",
+      "description": "メモを書く画面を開きます",
+      "url": "/#memo",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
+    }
   ]
 }
