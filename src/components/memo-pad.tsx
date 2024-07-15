@@ -17,6 +17,7 @@ export function MemoPad({ isOpen, onClose }: MemoPadProps) {
   const [memos, setMemos] = useState<Memo[]>([]);
   const [currentMemo, setCurrentMemo] = useState('');
   const memoPadRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     const storedMemos = localStorage.getItem('memos');
@@ -60,6 +61,12 @@ export function MemoPad({ isOpen, onClose }: MemoPadProps) {
     };
   }, [isOpen, onClose]);
 
+  useEffect(() => {
+    if (isOpen && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, [isOpen]);
+
   const addMemo = () => {
     if (currentMemo.trim()) {
       const newMemo: Memo = {
@@ -93,6 +100,7 @@ export function MemoPad({ isOpen, onClose }: MemoPadProps) {
         </button>
         <div className="mb-4">
           <textarea
+            ref={textareaRef}
             value={currentMemo}
             onChange={(e) => setCurrentMemo(e.target.value)}
             className="w-full h-32 p-3 border-2 border-pink-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200 bg-white bg-opacity-70"
