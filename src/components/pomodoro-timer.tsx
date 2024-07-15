@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, Play, Pause, RotateCcw } from 'lucide-react';
 
 interface PomodoroTimerProps {
   isOpen: boolean;
@@ -75,18 +75,16 @@ export function PomodoroTimer({ isOpen, onClose, onTimerStateChange }: PomodoroT
         <div className="flex justify-center space-x-4 mb-4">
           <button
             onClick={toggleTimer}
-            className={`px-6 py-2 rounded-full ${
-              isActive ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'
-            } text-white font-bold transition-colors duration-200 ${duration === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`y2k-button py-3 ${duration === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
             disabled={duration === 0}
           >
-            {isActive ? '一時停止' : 'スタート'}
+            {isActive ? <Pause size={24} /> : <Play size={24} />}
           </button>
           <button
             onClick={resetTimer}
-            className="px-6 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-bold transition-colors duration-200"
+            className="y2k-button bg-gray-500 hover:bg-gray-600"
           >
-            リセット
+            <RotateCcw size={24} />
           </button>
         </div>
         <div className="mb-4">

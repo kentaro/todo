@@ -98,7 +98,7 @@ export function MemoPad({ isOpen, onClose }: MemoPadProps) {
             className="w-full h-32 p-3 border-2 border-pink-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200 bg-white bg-opacity-70"
             placeholder="新しいメモを入力してください..."
           />
-          <Button onClick={addMemo} className="mt-2 w-full bg-gradient-to-r from-pink-400 to-purple-500 hover:from-pink-500 hover:to-purple-600 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105">
+          <Button onClick={addMemo} className="y2k-button w-full text-lg py-3">
             <Plus size={16} className="mr-2" />
           </Button>
         </div>
