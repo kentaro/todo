@@ -12,15 +12,15 @@ type AddTodoProps = {
 }
 
 export function AddTodo({ onAdd }: AddTodoProps) {
-  const getCurrentDate = () => {
+  const getCurrentDate = useCallback(() => {
     const now = new Date()
     return now.toISOString().split('T')[0]
-  }
+  }, [])
 
-  const getCurrentTime = () => {
+  const getCurrentTime = useCallback(() => {
     const now = new Date()
     return now.toTimeString().slice(0, 5)
-  }
+  }, [])
 
   const [title, setTitle] = useState('')
   const [dueDate, setDueDate] = useState(getCurrentDate())
@@ -30,6 +30,29 @@ export function AddTodo({ onAdd }: AddTodoProps) {
   const [scanResult, setScanResult] = useState<string | null>(null)
   const [cameraError, setCameraError] = useState<string | null>(null)
   const webcamRef = useRef<Webcam>(null)
+  const [isDateFocused, setIsDateFocused] = useState(false)
+  const [isTimeFocused, setIsTimeFocused] = useState(false)
+
+  useEffect(() => {
+    if (!isDateFocused && !isTimeFocused && !dueDate && !dueTime) {
+      const intervalId = setInterval(() => {
+        setDueDate(getCurrentDate())
+        setDueTime(getCurrentTime())
+      }, 1000)
+
+      return () => clearInterval(intervalId)
+    }
+  }, [getCurrentDate, getCurrentTime, isDateFocused, isTimeFocused, dueDate, dueTime])
+
+  const handleDateFocus = () => setIsDateFocused(true)
+  const handleDateBlur = () => {
+    setIsDateFocused(false)
+  }
+
+  const handleTimeFocus = () => setIsTimeFocused(true)
+  const handleTimeBlur = () => {
+    setIsTimeFocused(false)
+  }
 
   const captureQR = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot()
@@ -113,9 +136,13 @@ export function AddTodo({ onAdd }: AddTodoProps) {
       }
       onAdd(title.trim(), dueDateObj)
       setTitle('')
+      setShowScanner(false)
+
+      // タスク追加後に日付と時刻の同期を再開
       setDueDate('')
       setDueTime('')
-      setShowScanner(false)
+      setIsDateFocused(false)
+      setIsTimeFocused(false)
     }
   }
 
@@ -192,12 +219,16 @@ export function AddTodo({ onAdd }: AddTodoProps) {
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
+            onFocus={handleDateFocus}
+            onBlur={handleDateBlur}
             className="y2k-input flex-grow"
           />
           <Input
             type="time"
             value={dueTime}
             onChange={(e) => setDueTime(e.target.value)}
+            onFocus={handleTimeFocus}
+            onBlur={handleTimeBlur}
             className="y2k-input flex-grow"
           />
         </div>

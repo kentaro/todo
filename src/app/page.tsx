@@ -165,7 +165,7 @@ export default function Home() {
   const speakNotification = (todo: Todo, minutesLeft: number) => {
     if (isSpeechEnabled && canUseSpeechSynthesis()) {
       const utterance = new SpeechSynthesisUtterance(
-        `タスク「${todo.title}の期限まで${minutesLeft}です。`
+        `タスク「${todo.title}」の期限まであと${minutesLeft}分です。`
       );
       utterance.lang = 'ja-JP';
       utterance.volume = 1;
