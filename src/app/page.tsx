@@ -9,6 +9,8 @@ import { SpeechToggle } from '@/components/speech-toggle'
 import { PomodoroTimer } from '@/components/pomodoro-timer'
 import Image from 'next/image'
 import { Timer } from 'lucide-react'
+import { MemoPad } from '@/components/memo-pad'
+import { Notebook } from 'lucide-react'
 
 function canUseNotifications() {
   return 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
@@ -24,6 +26,7 @@ export default function Home() {
   const [isSpeechEnabled, setIsSpeechEnabled] = useState(false)
   const [isPomodoroOpen, setIsPomodoroOpen] = useState(false)
   const [isTimerActive, setIsTimerActive] = useState(false)
+  const [isMemoPadOpen, setIsMemoPadOpen] = useState(false)
 
   useEffect(() => {
     const storedTodos = localStorage.getItem('todos')
@@ -41,7 +44,7 @@ export default function Home() {
         if (permission === 'granted') {
           console.log('通知が許可されました');
         } else {
-          console.log('通知が許可されませんでした');
+          console.log('通知が許可され���せんでした');
         }
       });
 
@@ -62,7 +65,7 @@ export default function Home() {
     if (canUseSpeechSynthesis()) {
       console.log('音声合成が利用可能です');
     } else {
-      console.log('音声合成が利用できません');
+      console.log('声合成が利用できません');
     }
   }, [])
 
@@ -156,7 +159,7 @@ export default function Home() {
   const speakNotification = (todo: Todo, minutesLeft: number) => {
     if (isSpeechEnabled && canUseSpeechSynthesis()) {
       const utterance = new SpeechSynthesisUtterance(
-        `タスク「${todo.title}」の期限まであと${minutesLeft}分です。`
+        `タスク「${todo.title}の期限まで${minutesLeft}です。`
       );
       utterance.lang = 'ja-JP';
       utterance.volume = 1;
@@ -182,6 +185,12 @@ export default function Home() {
               }`}
             >
               <Timer size={20} />
+            </button>
+            <button
+              onClick={() => setIsMemoPadOpen(true)}
+              className="flex items-center justify-center w-10 h-10 bg-white bg-opacity-20 rounded-full shadow-md transition-colors duration-200 text-white"
+            >
+              <Notebook size={20} />
             </button>
             <SpeechToggle
               isEnabled={isSpeechEnabled}
@@ -210,7 +219,7 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center h-full">
             <div className="text-4xl font-bold text-accent mb-4">✨</div>
             <p className="text-2xl font-bold text-accent mb-2">タスクがありません</p>
-            <p className="text-lg text-secondary">新しいタスクを追加して始めましょう！</p>
+            <p className="text-lg text-secondary">新しいタスクを追加し始めましょう！</p>
           </div>
           )}
         </div>
@@ -225,6 +234,7 @@ export default function Home() {
           <AddTodo onAdd={addTodo} />
         </div>
       </footer>
+      <MemoPad isOpen={isMemoPadOpen} onClose={() => setIsMemoPadOpen(false)} />
     </div>
   )
 }

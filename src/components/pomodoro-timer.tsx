@@ -56,12 +56,12 @@ export function PomodoroTimer({ isOpen, onClose, onTimerStateChange }: PomodoroT
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-lg p-6 shadow-lg max-w-sm w-full relative">
+      <div className="bg-gradient-to-br from-pink-100 to-blue-100 rounded-lg p-6 shadow-lg max-w-md w-full relative">
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-foreground hover:text-accent transition-colors duration-200"
+          className="absolute top-2 right-2 bg-pink-300 hover:bg-pink-400 text-white rounded-full p-1 transition-colors duration-200 z-10"
         >
-          <X size={24} />
+          <X size={20} />
         </button>
         <div className="text-6xl font-bold mb-4 text-center text-foreground">{formatTime(time)}</div>
         <div className="flex justify-center space-x-4 mb-4">
@@ -91,7 +91,7 @@ export function PomodoroTimer({ isOpen, onClose, onTimerStateChange }: PomodoroT
             onChange={handleDurationChange}
             min="1"
             max="60"
-            className="w-full px-3 py-2 bg-background border border-accent rounded-md focus:outline-none focus:ring-2 focus:ring-accent text-foreground"
+            className="w-full px-3 py-2 bg-white bg-opacity-70 border-2 border-pink-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200 text-foreground"
           />
         </div>
       </div>
