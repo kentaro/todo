@@ -73,7 +73,11 @@ export function MemoPad({ isOpen, onClose }: MemoPadProps) {
   };
 
   const deleteMemo = (id: string) => {
-    setMemos(memos.filter(memo => memo.id !== id));
+    const updatedMemos = memos.filter(memo => memo.id !== id);
+    setMemos(updatedMemos);
+    if (updatedMemos.length === 0) {
+      localStorage.removeItem('memos');
+    }
   };
 
   if (!isOpen) return null;
