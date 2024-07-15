@@ -27,6 +27,8 @@ export default function Home() {
   const [isPomodoroOpen, setIsPomodoroOpen] = useState(false)
   const [isTimerActive, setIsTimerActive] = useState(false)
   const [isMemoPadOpen, setIsMemoPadOpen] = useState(false)
+  const [shouldOpenMemo, setShouldOpenMemo] = useState(false)
+  const [clearQuery, setClearQuery] = useState(() => () => {});
 
   useEffect(() => {
     const storedTodos = localStorage.getItem('todos')
@@ -44,7 +46,7 @@ export default function Home() {
         if (permission === 'granted') {
           console.log('通知が許可されました');
         } else {
-          console.log('通知が許可され���せんでした');
+          console.log('通知が許可されせんでした');
         }
       });
 
@@ -65,7 +67,7 @@ export default function Home() {
     if (canUseSpeechSynthesis()) {
       console.log('音声合成が利用可能です');
     } else {
-      console.log('声合成が利用できません');
+      console.log('音声合成が利用できません');
     }
   }, [])
 
@@ -234,7 +236,7 @@ export default function Home() {
           <AddTodo onAdd={addTodo} />
         </div>
       </footer>
-      <MemoPad isOpen={isMemoPadOpen} onClose={() => setIsMemoPadOpen(false)} />
+      <MemoPad isOpen={isMemoPadOpen || shouldOpenMemo} onClose={() => { setIsMemoPadOpen(false); setShouldOpenMemo(false); }} clearQuery={clearQuery} />
     </div>
   )
 }

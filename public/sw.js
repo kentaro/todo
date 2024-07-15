@@ -2,7 +2,15 @@ const VERSION = '__GIT_REF__';
 const CACHE_NAME = `todo-app-${VERSION}`;
 
 self.addEventListener('fetch', (event) => {
-  event.respondWith(fetch(event.request));
+  if (event.request.url.includes('/?action=open_memo')) {
+    event.respondWith(
+      fetch('/').then(response => {
+        return response;
+      })
+    );
+  } else {
+    event.respondWith(fetch(event.request));
+  }
 });
 
 self.addEventListener('activate', (event) => {

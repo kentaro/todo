@@ -11,9 +11,10 @@ interface Memo {
 interface MemoPadProps {
   isOpen: boolean;
   onClose: () => void;
+  clearQuery: () => void;
 }
 
-export function MemoPad({ isOpen, onClose }: MemoPadProps) {
+export function MemoPad({ isOpen, onClose, clearQuery }: MemoPadProps) {
   const [memos, setMemos] = useState<Memo[]>([]);
   const [currentMemo, setCurrentMemo] = useState('');
   const memoPadRef = useRef<HTMLDivElement>(null);
@@ -48,6 +49,7 @@ export function MemoPad({ isOpen, onClose }: MemoPadProps) {
     function handleClickOutside(event: MouseEvent) {
       if (memoPadRef.current && !memoPadRef.current.contains(event.target as Node)) {
         onClose();
+        clearQuery();
       }
     }
 
@@ -58,7 +60,7 @@ export function MemoPad({ isOpen, onClose }: MemoPadProps) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, clearQuery]);
 
   const addMemo = () => {
     if (currentMemo.trim()) {
@@ -86,7 +88,10 @@ export function MemoPad({ isOpen, onClose }: MemoPadProps) {
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div ref={memoPadRef} className="bg-gradient-to-br from-pink-100 to-blue-100 rounded-lg p-6 shadow-lg max-w-md w-full relative">
         <button
-          onClick={onClose}
+          onClick={() => {
+            onClose();
+            clearQuery();
+          }}
           className="absolute top-2 right-2 bg-pink-300 hover:bg-pink-400 text-white rounded-full p-1 transition-colors duration-200 z-10"
         >
           <X size={20} />
