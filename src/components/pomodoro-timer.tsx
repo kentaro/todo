@@ -1,6 +1,19 @@
 import { useState, useEffect } from 'react';
 import { X, Play, Pause, RotateCcw } from 'lucide-react';
 
+const sounds = [
+  { name: '静かな雨', file: '/sounds/rain-1.mp3' },
+  { name: '静かな雨2', file: '/sounds/rain-2.mp3' },
+  { name: 'アンビエント', file: '/sounds/ambient-1.mp3' },
+  { name: 'アンビエント2', file: '/sounds/ambient-2.mp3' },
+  { name: '焚き火', file: '/sounds/bonfire-1.mp3' },
+  { name: '焚き火2', file: '/sounds/bonfire-2.mp3' },
+  { name: 'スローテンポ', file: '/sounds/slow-1.mp3' },
+  { name: 'スローテンポ2', file: '/sounds/slow-2.mp3' },
+  { name: 'ピアノ', file: '/sounds/piano-1.mp3' },
+  { name: 'ピアノ2', file: '/sounds/piano-2.mp3' },
+];
+
 interface PomodoroTimerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -11,6 +24,47 @@ export function PomodoroTimer({ isOpen, onClose, onTimerStateChange }: PomodoroT
   const [time, setTime] = useState(25 * 60);
   const [isActive, setIsActive] = useState(false);
   const [duration, setDuration] = useState(25);
+  const [selectedSound, setSelectedSound] = useState(sounds[0]);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  const [volume, setVolume] = useState(0.5);
+
+  useEffect(() => {
+    if (audio) {
+      audio.volume = volume;
+    }
+  }, [audio, volume]);
+
+  useEffect(() => {
+    if (audio) {
+      if (isActive) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+  }, [isActive, audio]);
+
+  useEffect(() => {
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+
+    const newAudio = new Audio(selectedSound.file);
+    newAudio.loop = true;
+    newAudio.volume = volume;
+
+    if (isActive) {
+      newAudio.play();
+    }
+
+    setAudio(newAudio);
+
+    return () => {
+      newAudio.pause();
+      newAudio.currentTime = 0;
+    };
+  }, [selectedSound]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -105,6 +159,38 @@ export function PomodoroTimer({ isOpen, onClose, onTimerStateChange }: PomodoroT
             min="1"
             max="60"
             className="w-full px-3 py-2 bg-white bg-opacity-70 border-2 border-pink-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200 text-foreground"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="sound" className="block text-sm font-medium text-foreground mb-1">
+            BGM:
+          </label>
+          <select
+            id="sound"
+            value={selectedSound.name}
+            onChange={(e) => setSelectedSound(sounds.find(s => s.name === e.target.value) || sounds[0])}
+            className="w-full px-3 py-2 bg-white bg-opacity-70 border-2 border-pink-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200 text-foreground"
+          >
+            {sounds.map((sound) => (
+              <option key={sound.name} value={sound.name}>
+                {sound.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="mb-4">
+          <label htmlFor="volume" className="block text-sm font-medium text-foreground mb-1">
+            音量:
+          </label>
+          <input
+            type="range"
+            id="volume"
+            value={volume}
+            onChange={(e) => setVolume(parseFloat(e.target.value))}
+            min="0"
+            max="1"
+            step="0.1"
+            className="w-full px-3 py-2 bg-white bg-opacity-70 focus:outline-none focus:border-transparent transition-all duration-200 text-foreground"
           />
         </div>
       </div>
