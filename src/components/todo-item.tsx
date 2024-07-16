@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Edit, Trash, Check, X, Menu } from "lucide-react";
 import { useReward } from 'react-rewards';
+import { shareTodo } from "@/utils/share-utils"
 
 type TodoItemProps = {
   todo: Todo;
@@ -164,6 +165,17 @@ export function TodoItem({
             >
               編集
             </Button>
+            {todo.completed && (
+              <Button
+                onClick={() => {
+                  shareTodo(todo).catch(console.error);
+                  setIsMenuOpen(false);
+                }}
+                className="w-full text-left px-2 py-1 text-sm hover:bg-gray-100"
+              >
+                共有
+              </Button>
+            )}
             <Button
               onClick={() => {
                 onDelete(todo.id);

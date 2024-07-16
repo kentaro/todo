@@ -6,7 +6,7 @@ interface Y2KLogoProps {
 
 const Y2KLogo = ({ className }: Y2KLogoProps) => {
   return (
-    <div className={`${className} flex items-center justify-center`}>
+    <div className={`${className} flex items-center justify-center`} style={{ display: 'flex' }}>
       <span
         className="font-bold text-white bg-gradient-to-r from-pink-500 to-cyan-500 bg-clip-text text-transparent"
         style={{
