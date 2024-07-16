@@ -81,6 +81,10 @@ export async function shareTodo(todo: Todo) {
       alert("申し訳ありませんが、このブラウザは共有機能をサポートしていません。");
     }
   } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      console.log("ユーザーが共有をキャンセルしました");
+      return; // キャンセル時は何もしない
+    }
     console.error("Error sharing todo:", error);
     if (error instanceof Error) {
       alert(`共有中にエラーが発生しました: ${error.message}`);
