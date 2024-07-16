@@ -165,6 +165,15 @@ export function TodoItem({
             >
               編集
             </Button>
+            <Button
+              onClick={() => {
+                onDelete(todo.id);
+                setIsMenuOpen(false);
+              }}
+              className="w-full text-left px-2 py-1 text-sm hover:bg-gray-100 text-red-500"
+            >
+              削除
+            </Button>
             {todo.completed && (
               <Button
                 onClick={() => {
@@ -176,15 +185,6 @@ export function TodoItem({
                 共有
               </Button>
             )}
-            <Button
-              onClick={() => {
-                onDelete(todo.id);
-                setIsMenuOpen(false);
-              }}
-              className="w-full text-left px-2 py-1 text-sm hover:bg-gray-100 text-red-500"
-            >
-              削除
-            </Button>
           </div>
         )}
       </div>
